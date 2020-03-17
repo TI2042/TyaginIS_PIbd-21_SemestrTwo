@@ -1,12 +1,12 @@
 ﻿using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
-using SecuritySystemListImplement.Models;
+using SecuritySystemsListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Implements
+namespace SecuritySystemsListImplement.Implements
 {
     public class EquipmentLogic : IEquipmentLogic
     {

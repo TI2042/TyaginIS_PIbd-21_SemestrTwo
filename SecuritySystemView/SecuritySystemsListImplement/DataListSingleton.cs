@@ -1,9 +1,9 @@
-﻿using SecuritySystemListImplement.Models;
+﻿using SecuritySystemsListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement
+namespace SecuritySystemsListImplement
 {
     public class DataListSingleton
     {

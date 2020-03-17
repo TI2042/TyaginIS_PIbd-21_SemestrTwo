@@ -4,12 +4,12 @@ using System.Text;
 
 using System.Linq;
 using SecuritySystemsBusinessLogic.Interfaces;
-using SecuritySystemListImplement;
-using SecuritySystemListImplement.Models;
+using SecuritySystemsListImplement;
+using SecuritySystemsListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.ViewModels;
 
-namespace SecuritySysytemImplement.Implements
+namespace SecuritySysytemsImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {

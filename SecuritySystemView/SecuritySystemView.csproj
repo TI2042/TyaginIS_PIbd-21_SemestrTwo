@@ -148,9 +148,9 @@
       <Project>{0311b2db-0eed-4078-9aa8-743d2a105013}</Project>
       <Name>SecuritySystemBusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="SecuritySystemListImplement\SecuritySystemListImplement.csproj">
-      <Project>{54bca3a8-d57a-4130-abb6-65e28445fae9}</Project>
-      <Name>SecuritySystemListImplement</Name>
+    <ProjectReference Include="SecuritySystemsListImplement\SecuritySystemsListImplement.csproj">
+      <Project>{56a4ea1d-67bc-4d3d-bdc9-86fc109f4fcb}</Project>
+      <Name>SecuritySystemsListImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

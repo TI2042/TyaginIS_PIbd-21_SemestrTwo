@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Models
+namespace SecuritySystemsListImplement.Models
 {
     public class Order
     {

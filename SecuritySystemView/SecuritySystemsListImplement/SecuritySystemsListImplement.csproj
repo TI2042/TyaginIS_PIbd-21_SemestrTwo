@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity" Version="5.11.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\SecuritySystemBusinessLogic\SecuritySystemBusinessLogic.csproj" />
   </ItemGroup>
 
