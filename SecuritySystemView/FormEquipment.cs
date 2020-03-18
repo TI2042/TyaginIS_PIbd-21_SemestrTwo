@@ -1,6 +1,6 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Interfaces;
-using SecuritySystemsBusinessLogic.ViewModels;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,11 +24,16 @@ namespace SecuritySystemView
 
         private int? id;
 
-        private List<EquipmentDeviceViewModel> equipmentDevices;
+        private Dictionary<int, (string, int)> equipmentDevices;
 
         public FormEquipment(IEquipmentLogic service)
         {
             InitializeComponent();
+            dataGridView.Columns.Add("Id", "Id");
+            dataGridView.Columns.Add("DeviceName", "Устройство");
+            dataGridView.Columns.Add("Count", "Кол-во");
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
         }
 
@@ -38,12 +43,12 @@ namespace SecuritySystemView
             {
                 try
                 {
-                    EquipmentViewModel view = logic.GetElement(id.Value);
+                    EquipmentViewModel view = logic.Read(new EquipmentBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.EquipmentName;
                         textBoxPrice.Text = view.Price.ToString();
-                        equipmentDevices = view.ProductComponents;
+                        equipmentDevices = view.EquipmentDevices;
                         LoadData();
                     }
                 }
@@ -54,7 +59,7 @@ namespace SecuritySystemView
             }
             else
             {
-                equipmentDevices = new List<EquipmentDeviceViewModel>();
+                equipmentDevices = new Dictionary<int, (string, int)>();
             }
         }
 
@@ -64,18 +69,18 @@ namespace SecuritySystemView
             {
                 if (equipmentDevices != null)
                 {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = equipmentDevices;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Rows.Clear();
+                    foreach (var pc in equipmentDevices)
+                    {
+                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -83,13 +88,13 @@ namespace SecuritySystemView
             var form = Container.Resolve<FormEquipmentDevice>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ModelView != null)
+                if (equipmentDevices.ContainsKey(form.Id))
                 {
-                    if (id.HasValue)
-                    {
-                        form.ModelView.EquipmentId = id.Value;
-                    }
-                    equipmentDevices.Add(form.ModelView);
+                    equipmentDevices[form.Id] = (form.DeviceName, form.Count);
+                }
+                else
+                {
+                    equipmentDevices.Add(form.Id, (form.DeviceName, form.Count));
                 }
                 LoadData();
             }
@@ -100,10 +105,12 @@ namespace SecuritySystemView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormEquipmentDevice>();
-                form.ModelView = equipmentDevices[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = equipmentDevices[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    equipmentDevices[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.ModelView;
+                    equipmentDevices[form.Id] = (form.DeviceName, form.Count);
                     LoadData();
                 }
             }
@@ -117,7 +124,7 @@ namespace SecuritySystemView
                 {
                     try
                     {
-                        equipmentDevices.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
+                        equipmentDevices.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -152,36 +159,13 @@ namespace SecuritySystemView
             }
             try
             {
-                List<EquipmentDeviceBindingModel> productDeviceBM = new List<EquipmentDeviceBindingModel>();
-                for (int i = 0; i < equipmentDevices.Count; ++i)
+                logic.CreateOrUpdate(new EquipmentBindingModel
                 {
-                    productDeviceBM.Add(new EquipmentDeviceBindingModel
-                    {
-                        Id = equipmentDevices[i].Id,
-                        EquipmentId = equipmentDevices[i].EquipmentId,
-                        DeviceId = equipmentDevices[i].DeviceId,
-                        Count = equipmentDevices[i].Count
-                    });
-                }
-                if (id.HasValue)
-                {
-                    logic.UpdElement(new EquipmentBindingModel
-                    {
-                        Id = id.Value,
-                        EquipmentName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        EquipmentDevices = productDeviceBM
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new EquipmentBindingModel
-                    {
-                        EquipmentName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        EquipmentDevices = productDeviceBM
-                    });
-                }
+                    Id = id ?? null,
+                    EquipmentName = textBoxName.Text,
+                    Price = Convert.ToDecimal(textBoxPrice.Text),
+                    EquipmentDevices = equipmentDevices
+                });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();

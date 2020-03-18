@@ -1,10 +1,10 @@
-﻿using SecuritySystemsBusinessLogic.Enums;
+﻿using SecuritySystemBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.ViewModels
+namespace SecuritySystemBusinessLogic.ViewModels
 {
     public class OrderViewModel
     {

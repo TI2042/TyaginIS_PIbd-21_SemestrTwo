@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.BindingModels
+namespace SecuritySystemBusinessLogic.BindingModels
 {
     public class EquipmentBindingModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string EquipmentName { get; set; }
 
         public decimal Price { get; set; }
 
-        public List<EquipmentDeviceBindingModel> EquipmentDevices { get; set; }
+        public Dictionary<int, (string, int)> EquipmentDevices { get; set; }
     }
 }

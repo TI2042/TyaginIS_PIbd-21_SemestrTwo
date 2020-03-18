@@ -1,6 +1,6 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Interfaces;
-using SecuritySystemsBusinessLogic.BusinessLogic;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.BusinessLogic;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -19,30 +19,29 @@ namespace SecuritySystemView
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
+            LoadData();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadData();
+
         }
 
         private void LoadData()
         {
-            try
+
+            var listOrders = orderLogic.Read(null);
+            if (listOrders != null)
             {
-                var listOrders = orderLogic.Read(null);
-                if (listOrders != null)
-                {
-                    dataGridView.DataSource = listOrders;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.DataSource = listOrders;
+                dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[1].Visible = false;
+                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            dataGridView.Update();
+
+
         }
 
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)

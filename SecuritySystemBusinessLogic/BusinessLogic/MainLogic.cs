@@ -1,11 +1,11 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Enums;
-using SecuritySystemsBusinessLogic.Interfaces;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Enums;
+using SecuritySystemBusinessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.BusinessLogic
+namespace SecuritySystemBusinessLogic.BusinessLogic
 {
     public class MainLogic
     {

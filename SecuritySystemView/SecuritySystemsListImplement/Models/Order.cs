@@ -1,4 +1,4 @@
-﻿using SecuritySystemsBusinessLogic.Enums;
+﻿using SecuritySystemBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

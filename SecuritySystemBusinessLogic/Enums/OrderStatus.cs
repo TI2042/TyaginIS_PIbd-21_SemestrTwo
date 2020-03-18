@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.Enums
+namespace SecuritySystemBusinessLogic.Enums
 {
     public enum OrderStatus
     {

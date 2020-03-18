@@ -1,6 +1,6 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Interfaces;
-using SecuritySystemsBusinessLogic.ViewModels;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.ViewModels;
 using SecuritySystemsListImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -17,239 +17,151 @@ namespace SecuritySystemsListImplement.Implements
             source = DataListSingleton.GetInstance();
         }
 
-        public List<EquipmentViewModel> GetList()
+        public void CreateOrUpdate(EquipmentBindingModel model)
         {
-            List<EquipmentViewModel> result = new List<EquipmentViewModel>();
-            for (int i = 0; i < source.Equipments.Count; ++i)
+            Equipment tempProduct = model.Id.HasValue ? null : new Equipment { Id = 1 };
+            foreach (var product in source.Equipments)
             {
-                // требуется дополнительно получить список компонентов для изделия и их количество                
-                List<EquipmentDeviceViewModel> productComponents = new List<EquipmentDeviceViewModel>();
-                for (int j = 0; j < source.EquipmentDevices.Count; ++j)
-                {
-                    if (source.EquipmentDevices[j].EquipmentId == source.Equipments[i].Id)
-                    {
-                        string deviceName = string.Empty;
-                        for (int k = 0; k < source.Devices.Count; ++k)
-                        {
-                            if (source.EquipmentDevices[j].DeviceId == source.Devices[k].Id)
-                            {
-                                deviceName = source.Devices[k].DeviceName;
-                                break;
-                            }
-                        }
-                        productComponents.Add(new EquipmentDeviceViewModel
-                        {
-                            Id = source.EquipmentDevices[j].Id,
-                            EquipmentId = source.EquipmentDevices[j].EquipmentId,
-                            DeviceId = source.EquipmentDevices[j].DeviceId,
-                            DeviceName = deviceName,
-                            Count = source.EquipmentDevices[j].Count
-                        });
-                    }
-                }
-                result.Add(new EquipmentViewModel
-                {
-                    Id = source.Equipments[i].Id,
-                    EquipmentName = source.Equipments[i].EquipmentName,
-                    Price = source.Equipments[i].Price,
-                    ProductComponents = productComponents
-                });
-            }
-            return result;
-        }
-
-        public EquipmentViewModel GetElement(int id)
-        {
-            for (int i = 0; i < source.Equipments.Count; ++i)
-            {
-                // требуется дополнительно получить список компонентов для изделия и их количество            
-                List<EquipmentDeviceViewModel> productComponents = new List<EquipmentDeviceViewModel>();
-                for (int j = 0; j < source.EquipmentDevices.Count; ++j)
-                {
-                    if (source.EquipmentDevices[j].EquipmentId == source.Equipments[i].Id)
-                    {
-                        string componentName = string.Empty;
-                        for (int k = 0; k < source.Devices.Count; ++k)
-                        {
-                            if (source.EquipmentDevices[j].DeviceId == source.Devices[k].Id)
-                            {
-                                componentName = source.Devices[k].DeviceName;
-                                break;
-                            }
-                        }
-                        productComponents.Add(new EquipmentDeviceViewModel
-                        {
-                            Id = source.EquipmentDevices[j].Id,
-                            EquipmentId = source.EquipmentDevices[j].EquipmentId,
-                            DeviceId = source.EquipmentDevices[j].DeviceId,
-                            DeviceName = componentName,
-                            Count = source.EquipmentDevices[j].Count
-                        });
-                    }
-                }
-                if (source.Equipments[i].Id == id)
-                {
-                    return new EquipmentViewModel
-                    {
-                        Id = source.Equipments[i].Id,
-                        EquipmentName = source.Equipments[i].EquipmentName,
-                        Price = source.Equipments[i].Price,
-                        ProductComponents = productComponents
-                    };
-                }
-            }
-
-            throw new Exception("Элемент не найден");
-        }
-
-        public void AddElement(EquipmentBindingModel model)
-        {
-            int maxId = 0;
-            for (int i = 0; i < source.Equipments.Count; ++i)
-            {
-                if (source.Equipments[i].Id > maxId)
-                {
-                    maxId = source.Equipments[i].Id;
-                }
-                if (source.Equipments[i].EquipmentName == model.EquipmentName)
+                if (product.EquipmentName == model.EquipmentName && product.Id != model.Id)
                 {
                     throw new Exception("Уже есть изделие с таким названием");
                 }
-            }
-            source.Equipments.Add(new Equipment { Id = maxId + 1, EquipmentName = model.EquipmentName, Price = model.Price });
-            // компоненты для изделия           
-            int maxPCId = 0;
-            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
-            {
-                if (source.EquipmentDevices[i].Id > maxPCId)
+                if (!model.Id.HasValue && product.Id >= tempProduct.Id)
                 {
-                    maxPCId = source.EquipmentDevices[i].Id;
+                    tempProduct.Id = product.Id + 1;
+                }
+                else if (model.Id.HasValue && product.Id == model.Id)
+                {
+                    tempProduct = product;
                 }
             }
-            // убираем дубли по компонентам       
-            for (int i = 0; i < model.EquipmentDevices.Count; ++i)
+            if (model.Id.HasValue)
             {
-                for (int j = 1; j < model.EquipmentDevices.Count; ++j)
+                if (tempProduct == null)
                 {
-                    if (model.EquipmentDevices[i].DeviceId == model.EquipmentDevices[j].DeviceId)
-                    {
-                        model.EquipmentDevices[i].Count += model.EquipmentDevices[j].Count;
-                        model.EquipmentDevices.RemoveAt(j--);
-                    }
+                    throw new Exception("Элемент не найден");
                 }
+                CreateModel(model, tempProduct);
             }
-            // добавляем компоненты         
-            for (int i = 0; i < model.EquipmentDevices.Count; ++i)
+            else
             {
-                source.EquipmentDevices.Add(new EquipmentDevice
-                {
-                    Id = ++maxPCId,
-                    EquipmentId = maxId + 1,
-                    DeviceId = model.EquipmentDevices[i].DeviceId,
-                    Count = model.EquipmentDevices[i].Count
-                });
+                source.Equipments.Add(CreateModel(model, tempProduct));
             }
         }
 
-        public void UpdElement(EquipmentBindingModel model)
+        public void Delete(EquipmentBindingModel model)
         {
-            int index = -1; for (int i = 0; i < source.Equipments.Count; ++i)
-            {
-                if (source.Equipments[i].Id == model.Id)
-                {
-                    index = i;
-                }
-                if (source.Equipments[i].EquipmentName == model.EquipmentName && source.Equipments[i].Id != model.Id)
-                {
-                    throw new Exception("Уже есть изделие с таким названием");
-                }
-            }
-            if (index == -1)
-            {
-                throw new Exception("Элемент не найден");
-            }
-            source.Equipments[index].EquipmentName = model.EquipmentName;
-            source.Equipments[index].Price = model.Price;
-            int maxPCId = 0;
-            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
-            {
-                if (source.EquipmentDevices[i].Id > maxPCId)
-                {
-                    maxPCId = source.EquipmentDevices[i].Id;
-                }
-            }
-            // обновляем существуюущие компоненты     
+            // удаляем записи по компонентам при удалении изделия
             for (int i = 0; i < source.EquipmentDevices.Count; ++i)
             {
                 if (source.EquipmentDevices[i].EquipmentId == model.Id)
-                {
-                    bool flag = true;
-                    for (int j = 0; j < model.EquipmentDevices.Count; ++j)
-                    {
-                        // если встретили, то изменяем количество   
-                        if (source.EquipmentDevices[i].Id == model.EquipmentDevices[j].Id)
-                        {
-                            source.EquipmentDevices[i].Count = model.EquipmentDevices[j].Count;
-                            flag = false;
-                            break;
-                        }
-                    }
-                    // если не встретили, то удаляем             
-                    if (flag)
-                    {
-                        source.EquipmentDevices.RemoveAt(i--);
-                    }
-                }
-            }
-            // новые записи     
-            for (int i = 0; i < model.EquipmentDevices.Count; ++i)
-            {
-                if (model.EquipmentDevices[i].Id == 0)
-                {
-                    // ищем дубли  
-                    for (int j = 0; j < source.EquipmentDevices.Count; ++j)
-                    {
-                        if (source.EquipmentDevices[j].EquipmentId == model.Id && source.EquipmentDevices[j].DeviceId == model.EquipmentDevices[i].DeviceId)
-                        {
-                            source.EquipmentDevices[j].Count += model.EquipmentDevices[i].Count;
-                            model.EquipmentDevices[i].Id = source.EquipmentDevices[j].Id;
-                            break;
-                        }
-                    }
-                    // если не нашли дубли, то новая запись             
-                    if (model.EquipmentDevices[i].Id == 0)
-                    {
-                        source.EquipmentDevices.Add(new EquipmentDevice
-                        {
-                            Id = ++maxPCId,
-                            EquipmentId = model.Id,
-                            DeviceId = model.EquipmentDevices[i].DeviceId,
-                            Count = model.EquipmentDevices[i].Count
-                        });
-                    }
-                }
-            }
-        }
-
-        public void DelElement(int id)
-        {
-            // удаляем записи по компонентам при удалении изделия    
-            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
-            {
-                if (source.EquipmentDevices[i].EquipmentId == id)
                 {
                     source.EquipmentDevices.RemoveAt(i--);
                 }
             }
             for (int i = 0; i < source.Equipments.Count; ++i)
             {
-                if (source.Equipments[i].Id == id)
+                if (source.Equipments[i].Id == model.Id)
                 {
                     source.Equipments.RemoveAt(i);
                     return;
                 }
             }
             throw new Exception("Элемент не найден");
+        }
+
+        private Equipment CreateModel(EquipmentBindingModel model, Equipment product)
+        {
+            product.EquipmentName = model.EquipmentName;
+            product.Price = model.Price;
+            //обновляем существуюущие компоненты и ищем максимальный идентификатор
+            int maxPCId = 0;
+            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
+            {
+                if (source.EquipmentDevices[i].Id > maxPCId)
+                {
+                    maxPCId = source.EquipmentDevices[i].Id;
+                }
+                if (source.EquipmentDevices[i].EquipmentId == product.Id)
+                {
+                    // если в модели пришла запись компонента с таким id
+                    if
+                    (model.EquipmentDevices.ContainsKey(source.EquipmentDevices[i].DeviceId))
+                    {
+                        // обновляем количество
+                        source.EquipmentDevices[i].Count =
+                        model.EquipmentDevices[source.EquipmentDevices[i].DeviceId].Item2;
+                        // из модели убираем эту запись, чтобы остались только не
+                        //просмотренные
+                        model.EquipmentDevices.Remove(source.EquipmentDevices[i].DeviceId);
+                    }
+                    else
+                    {
+                        source.EquipmentDevices.RemoveAt(i--);
+                    }
+                }
+            }
+            // новые записи
+            foreach (var pc in model.EquipmentDevices)
+            {
+                source.EquipmentDevices.Add(new EquipmentDevice
+                {
+                    Id = ++maxPCId,
+                    DeviceId = product.Id,
+                    EquipmentId = pc.Key,
+                    Count = pc.Value.Item2
+                });
+            }
+            return product;
+        }
+
+        public List<EquipmentViewModel> Read(EquipmentBindingModel model)
+        {
+            List<EquipmentViewModel> result = new List<EquipmentViewModel>();
+            foreach (var component in source.Equipments)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+
+        private EquipmentViewModel CreateViewModel(Equipment product)
+        {
+            // требуется дополнительно получить список компонентов для изделия с
+            // названиями и их количество
+            Dictionary<int, (string, int)> equipmentDevices = new Dictionary<int, (string, int)>();
+            foreach (var dm in source.EquipmentDevices)
+            {
+                if (dm.EquipmentId == product.Id)
+                {
+                    string componentName = string.Empty;
+                    foreach (var component in source.Devices)
+                    {
+                        if (dm.DeviceId == component.Id)
+                        {
+                            componentName = component.DeviceName;
+                            break;
+                        }
+                    }
+                    equipmentDevices.Add(dm.DeviceId, (componentName, dm.Count));
+                }
+            }
+            return new EquipmentViewModel
+            {
+                Id = product.Id,
+                EquipmentName = product.EquipmentName,
+                Price = product.Price,
+                EquipmentDevices = equipmentDevices
+            };
         }
     }
 }

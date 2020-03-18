@@ -1,7 +1,7 @@
 ﻿using SecuritySystemsListImplement.Models;
-using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Interfaces;
-using SecuritySystemsBusinessLogic.ViewModels;
+using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,83 +17,46 @@ namespace SecuritySystemsListImplement.Implements
             source = DataListSingleton.GetInstance();
         }
 
-        public List<DeviceViewModel> GetList()
+        public void CreateOrUpdate(DeviceBindingModel model)
         {
-            List<DeviceViewModel> result = new List<DeviceViewModel>();
-            for (int i = 0; i < source.Devices.Count; ++i)
+            Device tempComponent = model.Id.HasValue ? null : new Device
             {
-                result.Add(new DeviceViewModel
-                {
-                    Id = source.Devices[i].Id,
-                    DeviceName = source.Devices[i].DeviceName
-                });
-            }
-            return result;
-        }
-
-        public DeviceViewModel GetElement(int id)
-        {
-            for (int i = 0; i < source.Devices.Count; ++i)
+                Id = 1
+            };
+            foreach (var device in source.Devices)
             {
-                if (source.Devices[i].Id == id)
-                {
-                    return new DeviceViewModel
-                    {
-                        Id = source.Devices[i].Id,
-                        DeviceName = source.Devices[i].DeviceName
-                    };
-                }
-            }
-            throw new Exception("Элемент не найден");
-        }
-
-        public void AddElement(DeviceBindingModel model)
-        {
-            int maxId = 0;
-            for (int i = 0; i < source.Devices.Count; ++i)
-            {
-                if (source.Devices[i].Id > maxId)
-                {
-                    maxId = source.Devices[i].Id;
-                }
-                if (source.Devices[i].DeviceName == model.DeviceName)
+                if (device.DeviceName == model.DeviceName && device.Id != model.Id)
                 {
                     throw new Exception("Уже есть компонент с таким названием");
                 }
-            }
-            source.Devices.Add(new Device
-            {
-                Id = maxId + 1,
-                DeviceName = model.DeviceName
-            });
-        }
-
-        public void UpdElement(DeviceBindingModel model)
-        {
-            int index = -1;
-            for (int i = 0; i < source.Devices.Count; ++i)
-            {
-                if (source.Devices[i].Id == model.Id)
+                if (!model.Id.HasValue && device.Id >= tempComponent.Id)
                 {
-                    index = i;
+                    tempComponent.Id = device.Id + 1;
                 }
-                if (source.Devices[i].DeviceName == model.DeviceName && source.Devices[i].Id != model.Id)
+                else if (model.Id.HasValue && device.Id == model.Id)
                 {
-                    throw new Exception("Уже есть устройство с таким названием");
+                    tempComponent = device;
                 }
             }
-            if (index == -1)
+            if (model.Id.HasValue)
             {
-                throw new Exception("Элемент не найден");
+                if (tempComponent == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, tempComponent);
             }
-            source.Devices[index].DeviceName = model.DeviceName;
+            else
+            {
+                source.Devices.Add(CreateModel(model, tempComponent));
+            }
         }
 
-        public void DelElement(int id)
+        public void Delete(DeviceBindingModel model)
         {
             for (int i = 0; i < source.Devices.Count; ++i)
             {
-                if (source.Devices[i].Id == id)
+                if (source.Devices[i].Id == model.Id.Value)
                 {
                     source.Devices.RemoveAt(i);
                     return;
@@ -101,7 +64,39 @@ namespace SecuritySystemsListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
+
+        public List<DeviceViewModel> Read(DeviceBindingModel model)
+        {
+            List<DeviceViewModel> result = new List<DeviceViewModel>();
+            foreach (var component in source.Devices)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+
+        private Device CreateModel(DeviceBindingModel model, Device component)
+        {
+            component.DeviceName = model.DeviceName;
+            return component;
+        }
+
+        private DeviceViewModel CreateViewModel(Device component)
+        {
+            return new DeviceViewModel
+            {
+                Id = component.Id,
+                DeviceName = component.DeviceName
+            };
+        }
     }
 }
-
-

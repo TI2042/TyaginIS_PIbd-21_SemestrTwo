@@ -1,9 +1,9 @@
-﻿using SecuritySystemsBusinessLogic.Enums;
+﻿using SecuritySystemBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.BindingModels
+namespace SecuritySystemBusinessLogic.BindingModels
 {
     public class OrderBindingModel
     {

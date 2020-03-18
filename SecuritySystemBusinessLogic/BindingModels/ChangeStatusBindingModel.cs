@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.BindingModels
+namespace SecuritySystemBusinessLogic.BindingModels
 {
     public class ChangeStatusBindingModel
     {

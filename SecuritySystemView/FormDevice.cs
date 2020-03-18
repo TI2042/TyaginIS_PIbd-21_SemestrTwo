@@ -1,5 +1,5 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.Interfaces;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +35,7 @@ namespace SecuritySystemView
             {
                 try
                 {
-                    var view = logic.GetElement(id.Value);
+                    var view = logic.Read(new DeviceBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.DeviceName;
@@ -57,15 +57,14 @@ namespace SecuritySystemView
             }
             try
             {
-                if (id.HasValue)
+                logic.CreateOrUpdate(new DeviceBindingModel
                 {
-                    logic.UpdElement(new DeviceBindingModel { Id = id.Value, DeviceName = textBoxName.Text });
-                }
-                else
-                {
-                    logic.AddElement(new DeviceBindingModel { DeviceName = textBoxName.Text });
-                }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information); DialogResult = DialogResult.OK; Close();
+                    Id = id ?? null,
+                    DeviceName = textBoxName.Text
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {

@@ -1,21 +1,15 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.ViewModels;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.Interfaces
+namespace SecuritySystemBusinessLogic.Interfaces
 {
     public interface IEquipmentLogic
     {
-        List<EquipmentViewModel> GetList();
-
-        EquipmentViewModel GetElement(int id);
-
-        void AddElement(EquipmentBindingModel model);
-
-        void UpdElement(EquipmentBindingModel model);
-
-        void DelElement(int id);
+        List<EquipmentViewModel> Read(EquipmentBindingModel model);
+        void CreateOrUpdate(EquipmentBindingModel model);
+        void Delete(EquipmentBindingModel model);
     }
 }

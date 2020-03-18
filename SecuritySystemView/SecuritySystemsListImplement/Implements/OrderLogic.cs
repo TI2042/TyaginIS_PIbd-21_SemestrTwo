@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.Linq;
-using SecuritySystemsBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.Interfaces;
 using SecuritySystemsListImplement;
+using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.ViewModels;
 using SecuritySystemsListImplement.Models;
-using SecuritySystemsBusinessLogic.BindingModels;
-using SecuritySystemsBusinessLogic.ViewModels;
 
-namespace SecuritySysytemsImplement.Implements
+namespace SecuritySysytemImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
@@ -101,14 +100,14 @@ namespace SecuritySysytemsImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            var dressName = source.Equipments.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
+            var equipmentName = source.Equipments.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
             return new OrderViewModel
             {
                 Id = order.Id,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
-                EquipmentName = dressName,
+                EquipmentName = equipmentName,
                 EquipmentId = order.EquipmentId,
                 Status = order.Status,
                 Sum = order.Sum
