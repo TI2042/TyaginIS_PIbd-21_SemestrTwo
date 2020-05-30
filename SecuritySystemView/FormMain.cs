@@ -5,6 +5,8 @@ using System;
 using System.Windows.Forms;
 using Unity;
 using SecuritySystemFileImplement.Implements;
+using SecuritySystemBusinessLogic.BusinessLogic;
+using SecuritySystemBusinessLogic.BindingModels;
 
 namespace SecuritySystemView
 {
@@ -14,34 +16,39 @@ namespace SecuritySystemView
 
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic)
+        private readonly ReportLogic report;
+
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
+            this.report = report;
             LoadData();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadData();
-
         }
 
         private void LoadData()
         {
-
-            var listOrders = orderLogic.Read(null);
-            if (listOrders != null)
+            try
             {
-                dataGridView.DataSource = listOrders;
-                dataGridView.Columns[0].Visible = false;
-                dataGridView.Columns[1].Visible = false;
-                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                var listOrders = orderLogic.Read(null);
+                if (listOrders != null)
+                {
+                    dataGridView.DataSource = listOrders;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
             }
-            dataGridView.Update();
-
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,6 +124,30 @@ namespace SecuritySystemView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void ComponentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    report.SaveEquipmentsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void ComponentProductsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportDeviceEquipment>();
+            form.ShowDialog();
+        }
+
+        private void OrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportEquipmentDevices>();
+            form.ShowDialog();
         }
     }
 }
