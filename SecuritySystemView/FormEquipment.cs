@@ -16,21 +16,24 @@ namespace SecuritySystemView
 {
     public partial class FormEquipment : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         public int Id { set { id = value; } }
+
         private readonly IEquipmentLogic logic;
+
         private int? id;
+
         private Dictionary<int, (string, int)> equipmentDevices;
 
         public FormEquipment(IEquipmentLogic service)
         {
             InitializeComponent();
-            dataGridViewComponents.Columns.Add("Id", "Id");
-            dataGridViewComponents.Columns.Add("DeviceName", "Устройство");
-            dataGridViewComponents.Columns.Add("Count", "Количество");
-            dataGridViewComponents.Columns[0].Visible = false;
-            dataGridViewComponents.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView.Columns.Add("Id", "Id");
+            dataGridView.Columns.Add("DeviceName", "Устройство");
+            dataGridView.Columns.Add("Count", "Кол-во");
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
         }
 
@@ -43,7 +46,7 @@ namespace SecuritySystemView
                     EquipmentViewModel view = logic.Read(new EquipmentBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
-                        textBoxNameProduct.Text = view.EquipmentName;
+                        textBoxName.Text = view.EquipmentName;
                         textBoxPrice.Text = view.Price.ToString();
                         equipmentDevices = view.EquipmentDevices;
                         LoadData();
@@ -66,20 +69,21 @@ namespace SecuritySystemView
             {
                 if (equipmentDevices != null)
                 {
-                    dataGridViewComponents.Rows.Clear();
+                    dataGridView.Rows.Clear();
                     foreach (var pc in equipmentDevices)
                     {
-                        dataGridViewComponents.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка tyta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormEquipmentDevice>();
             if (form.ShowDialog() == DialogResult.OK)
@@ -96,12 +100,12 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonUpd_Click(object sender, EventArgs e)
+        private void buttonUpd_Click(object sender, EventArgs e)
         {
-            if (dataGridViewComponents.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormEquipmentDevice>();
-                int id = Convert.ToInt32(dataGridViewComponents.SelectedRows[0].Cells[0].Value);
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 form.Id = id;
                 form.Count = equipmentDevices[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
@@ -112,16 +116,15 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonDel_Click(object sender, EventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewComponents.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
-
-                        equipmentDevices.Remove(Convert.ToInt32(dataGridViewComponents.SelectedRows[0].Cells[0].Value));
+                        equipmentDevices.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -132,14 +135,14 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonRef_Click(object sender, EventArgs e)
+        private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxNameProduct.Text))
+            if (string.IsNullOrEmpty(textBoxName.Text))
             {
                 MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -151,7 +154,7 @@ namespace SecuritySystemView
             }
             if (equipmentDevices == null || equipmentDevices.Count == 0)
             {
-                MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -159,7 +162,7 @@ namespace SecuritySystemView
                 logic.CreateOrUpdate(new EquipmentBindingModel
                 {
                     Id = id ?? null,
-                    EquipmentName = textBoxNameProduct.Text,
+                    EquipmentName = textBoxName.Text,
                     Price = Convert.ToDecimal(textBoxPrice.Text),
                     EquipmentDevices = equipmentDevices
                 });
@@ -173,7 +176,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

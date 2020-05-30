@@ -1,4 +1,4 @@
-﻿using SecuritySystemListImplement.Models;
+﻿using SecuritySystemFileImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Implements
+namespace SecuritySystemFileImplement.Implements
 {
     public  class DeviceLogic : IDeviceLogic
     {

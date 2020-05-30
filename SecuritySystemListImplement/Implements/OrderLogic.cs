@@ -1,4 +1,4 @@
-﻿using SecuritySystemListImplement.Models;
+﻿using SecuritySystemFileImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SecuritySystemListImplement.Implements
+namespace SecuritySystemFileImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {

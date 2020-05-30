@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Models
+namespace SecuritySystemFileImplement.Models
 {
     public class EquipmentDevice
     {
