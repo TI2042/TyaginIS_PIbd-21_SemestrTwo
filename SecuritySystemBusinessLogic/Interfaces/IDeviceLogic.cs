@@ -8,14 +8,8 @@ namespace SecuritySystemsBusinessLogic.Interfaces
 {
     public interface IDeviceLogic
     {
-        List<DeviceViewModel> GetList();
-
-        DeviceViewModel GetElement(int id);
-
-        void AddElement(DeviceBindingModel model);
-
-        void UpdElement(DeviceBindingModel model);
-
-        void DelElement(int id);
+        List<DeviceViewModel> Read(DeviceBindingModel model);
+        void CreateOrUpdate(DeviceBindingModel model);
+        void Delete(DeviceBindingModel model);
     }
 }

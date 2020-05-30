@@ -28,153 +28,153 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.labelNameProduct = new System.Windows.Forms.Label();
+            this.labelPrice = new System.Windows.Forms.Label();
+            this.textBoxNameProduct = new System.Windows.Forms.TextBox();
             this.textBoxPrice = new System.Windows.Forms.TextBox();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonRef = new System.Windows.Forms.Button();
-            this.buttonDel = new System.Windows.Forms.Button();
-            this.buttonUpd = new System.Windows.Forms.Button();
-            this.buttonAdd = new System.Windows.Forms.Button();
+            this.groupBoxComponents = new System.Windows.Forms.GroupBox();
+            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.buttonUpdate = new System.Windows.Forms.Button();
+            this.buttonAddComponent = new System.Windows.Forms.Button();
+            this.dataGridViewComponents = new System.Windows.Forms.DataGridView();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxComponents.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewComponents)).BeginInit();
             this.SuspendLayout();
+            // 
+            // labelNameProduct
+            // 
+            this.labelNameProduct.AutoSize = true;
+            this.labelNameProduct.Location = new System.Drawing.Point(19, 21);
+            this.labelNameProduct.Name = "labelNameProduct";
+            this.labelNameProduct.Size = new System.Drawing.Size(60, 13);
+            this.labelNameProduct.TabIndex = 0;
+            this.labelNameProduct.Text = "Название:";
+            // 
+            // labelPrice
+            // 
+            this.labelPrice.AutoSize = true;
+            this.labelPrice.Location = new System.Drawing.Point(43, 50);
+            this.labelPrice.Name = "labelPrice";
+            this.labelPrice.Size = new System.Drawing.Size(36, 13);
+            this.labelPrice.TabIndex = 1;
+            this.labelPrice.Text = "Цена:";
+            // 
+            // textBoxNameProduct
+            // 
+            this.textBoxNameProduct.Location = new System.Drawing.Point(85, 18);
+            this.textBoxNameProduct.Name = "textBoxNameProduct";
+            this.textBoxNameProduct.Size = new System.Drawing.Size(173, 20);
+            this.textBoxNameProduct.TabIndex = 2;
             // 
             // textBoxPrice
             // 
-            this.textBoxPrice.Location = new System.Drawing.Point(94, 39);
+            this.textBoxPrice.Location = new System.Drawing.Point(85, 47);
             this.textBoxPrice.Name = "textBoxPrice";
-            this.textBoxPrice.Size = new System.Drawing.Size(86, 22);
-            this.textBoxPrice.TabIndex = 10;
+            this.textBoxPrice.Size = new System.Drawing.Size(84, 20);
+            this.textBoxPrice.TabIndex = 3;
             // 
-            // textBoxName
+            // groupBoxComponents
             // 
-            this.textBoxName.Location = new System.Drawing.Point(94, 9);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(205, 22);
-            this.textBoxName.TabIndex = 9;
+            this.groupBoxComponents.Controls.Add(this.buttonDelete);
+            this.groupBoxComponents.Controls.Add(this.buttonRefresh);
+            this.groupBoxComponents.Controls.Add(this.buttonUpdate);
+            this.groupBoxComponents.Controls.Add(this.buttonAddComponent);
+            this.groupBoxComponents.Controls.Add(this.dataGridViewComponents);
+            this.groupBoxComponents.Location = new System.Drawing.Point(12, 84);
+            this.groupBoxComponents.Name = "groupBoxComponents";
+            this.groupBoxComponents.Size = new System.Drawing.Size(466, 219);
+            this.groupBoxComponents.TabIndex = 4;
+            this.groupBoxComponents.TabStop = false;
+            this.groupBoxComponents.Text = "Устройства";
             // 
-            // label2
+            // buttonDelete
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 17);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Цена";
+            this.buttonDelete.Location = new System.Drawing.Point(388, 79);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(72, 24);
+            this.buttonDelete.TabIndex = 4;
+            this.buttonDelete.Text = "Удалить";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.ButtonDel_Click);
             // 
-            // label1
+            // buttonRefresh
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 17);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Название";
+            this.buttonRefresh.Location = new System.Drawing.Point(388, 109);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(72, 24);
+            this.buttonRefresh.TabIndex = 3;
+            this.buttonRefresh.Text = "Обновить";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.ButtonRef_Click);
             // 
-            // dataGridView
+            // buttonUpdate
             // 
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(6, 21);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(507, 380);
-            this.dataGridView.TabIndex = 0;
+            this.buttonUpdate.Location = new System.Drawing.Point(388, 49);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(72, 24);
+            this.buttonUpdate.TabIndex = 2;
+            this.buttonUpdate.Text = "Изменить";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpd_Click);
             // 
-            // groupBox1
+            // buttonAddComponent
             // 
-            this.groupBox1.Controls.Add(this.buttonRef);
-            this.groupBox1.Controls.Add(this.buttonDel);
-            this.groupBox1.Controls.Add(this.buttonUpd);
-            this.groupBox1.Controls.Add(this.buttonAdd);
-            this.groupBox1.Controls.Add(this.dataGridView);
-            this.groupBox1.Location = new System.Drawing.Point(18, 77);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(697, 407);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Компоненты";
+            this.buttonAddComponent.Location = new System.Drawing.Point(388, 19);
+            this.buttonAddComponent.Name = "buttonAddComponent";
+            this.buttonAddComponent.Size = new System.Drawing.Size(72, 24);
+            this.buttonAddComponent.TabIndex = 1;
+            this.buttonAddComponent.Text = "Добавить";
+            this.buttonAddComponent.UseVisualStyleBackColor = true;
+            this.buttonAddComponent.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
-            // buttonRef
+            // dataGridViewComponents
             // 
-            this.buttonRef.Location = new System.Drawing.Point(519, 108);
-            this.buttonRef.Name = "buttonRef";
-            this.buttonRef.Size = new System.Drawing.Size(172, 23);
-            this.buttonRef.TabIndex = 4;
-            this.buttonRef.Text = "Обновить";
-            this.buttonRef.UseVisualStyleBackColor = true;
-            this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
-            // 
-            // buttonDel
-            // 
-            this.buttonDel.Location = new System.Drawing.Point(519, 79);
-            this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(172, 23);
-            this.buttonDel.TabIndex = 3;
-            this.buttonDel.Text = "Удалить";
-            this.buttonDel.UseVisualStyleBackColor = true;
-            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
-            // 
-            // buttonUpd
-            // 
-            this.buttonUpd.Location = new System.Drawing.Point(519, 50);
-            this.buttonUpd.Name = "buttonUpd";
-            this.buttonUpd.Size = new System.Drawing.Size(172, 23);
-            this.buttonUpd.TabIndex = 2;
-            this.buttonUpd.Text = "Изменить";
-            this.buttonUpd.UseVisualStyleBackColor = true;
-            this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
-            // 
-            // buttonAdd
-            // 
-            this.buttonAdd.Location = new System.Drawing.Point(519, 21);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(172, 23);
-            this.buttonAdd.TabIndex = 1;
-            this.buttonAdd.Text = "Добавить";
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.dataGridViewComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewComponents.Location = new System.Drawing.Point(8, 22);
+            this.dataGridViewComponents.Name = "dataGridViewComponents";
+            this.dataGridViewComponents.Size = new System.Drawing.Size(374, 196);
+            this.dataGridViewComponents.TabIndex = 0;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(359, 490);
+            this.buttonSave.Location = new System.Drawing.Point(310, 308);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(172, 23);
-            this.buttonSave.TabIndex = 13;
+            this.buttonSave.Size = new System.Drawing.Size(72, 24);
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(537, 490);
+            this.buttonCancel.Location = new System.Drawing.Point(400, 308);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(172, 23);
-            this.buttonCancel.TabIndex = 12;
+            this.buttonCancel.Size = new System.Drawing.Size(72, 24);
+            this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.MouseCaptureChanged += new System.EventHandler(this.ButtonCancel_Click);
             // 
-            // FormEquipment
+            // FormDress
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(725, 530);
-            this.Controls.Add(this.textBoxPrice);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonSave);
+            this.ClientSize = new System.Drawing.Size(490, 335);
             this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.groupBoxComponents);
+            this.Controls.Add(this.textBoxPrice);
+            this.Controls.Add(this.textBoxNameProduct);
+            this.Controls.Add(this.labelPrice);
+            this.Controls.Add(this.labelNameProduct);
             this.Name = "FormEquipment";
             this.Text = "Комплектация";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.FormProduct_Load);
+            this.groupBoxComponents.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewComponents)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,16 +182,16 @@
 
         #endregion
 
+        private System.Windows.Forms.Label labelNameProduct;
+        private System.Windows.Forms.Label labelPrice;
+        private System.Windows.Forms.TextBox textBoxNameProduct;
         private System.Windows.Forms.TextBox textBoxPrice;
-        private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonRef;
-        private System.Windows.Forms.Button buttonDel;
-        private System.Windows.Forms.Button buttonUpd;
-        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.GroupBox groupBoxComponents;
+        private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.Button buttonAddComponent;
+        private System.Windows.Forms.DataGridView dataGridViewComponents;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
     }

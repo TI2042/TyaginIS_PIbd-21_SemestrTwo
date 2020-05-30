@@ -15,12 +15,10 @@ namespace SecuritySystemView
 {
     public partial class FormDevice : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
-
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-
         private readonly IDeviceLogic logic;
-
         private int? id;
 
         public FormDevice(IDeviceLogic logic)
@@ -35,7 +33,7 @@ namespace SecuritySystemView
             {
                 try
                 {
-                    var view = logic.GetElement(id.Value);
+                    var view = logic.Read(new DeviceBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.DeviceName;
@@ -48,7 +46,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxName.Text))
             {
@@ -57,15 +55,14 @@ namespace SecuritySystemView
             }
             try
             {
-                if (id.HasValue)
+                logic.CreateOrUpdate(new DeviceBindingModel
                 {
-                    logic.UpdElement(new DeviceBindingModel { Id = id.Value, DeviceName = textBoxName.Text });
-                }
-                else
-                {
-                    logic.AddElement(new DeviceBindingModel { DeviceName = textBoxName.Text });
-                }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information); DialogResult = DialogResult.OK; Close();
+                    Id = id ?? null,
+                    DeviceName = textBoxName.Text
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {
@@ -73,7 +70,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

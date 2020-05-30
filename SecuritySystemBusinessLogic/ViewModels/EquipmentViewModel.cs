@@ -15,6 +15,6 @@ namespace SecuritySystemsBusinessLogic.ViewModels
         [DisplayName("Цена")]
         public decimal Price { get; set; }
 
-        public List<EquipmentDeviceViewModel> ProductComponents { get; set; }
+        public Dictionary<int, (string, int)> EquipmentDevices { get; set; }
     }
 }

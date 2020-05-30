@@ -1,11 +1,10 @@
-﻿using SecuritySystemsListImplement.Implements;
-using SecuritySystemsBusinessLogic.Interfaces;
+﻿using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.BusinessLogic;
 using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
-using SecuritySysytemsImplement.Implements;
+using SecuritySystemListImplement.Implements;
 
 namespace SecuritySystemView
 {

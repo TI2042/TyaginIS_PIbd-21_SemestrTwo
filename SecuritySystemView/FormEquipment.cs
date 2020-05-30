@@ -16,19 +16,21 @@ namespace SecuritySystemView
 {
     public partial class FormEquipment : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
-
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-
         private readonly IEquipmentLogic logic;
-
         private int? id;
-
-        private List<EquipmentDeviceViewModel> equipmentDevices;
+        private Dictionary<int, (string, int)> equipmentDevices;
 
         public FormEquipment(IEquipmentLogic service)
         {
             InitializeComponent();
+            dataGridViewComponents.Columns.Add("Id", "Id");
+            dataGridViewComponents.Columns.Add("DeviceName", "Устройство");
+            dataGridViewComponents.Columns.Add("Count", "Количество");
+            dataGridViewComponents.Columns[0].Visible = false;
+            dataGridViewComponents.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
         }
 
@@ -38,12 +40,12 @@ namespace SecuritySystemView
             {
                 try
                 {
-                    EquipmentViewModel view = logic.GetElement(id.Value);
+                    EquipmentViewModel view = logic.Read(new EquipmentBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
-                        textBoxName.Text = view.EquipmentName;
+                        textBoxNameProduct.Text = view.EquipmentName;
                         textBoxPrice.Text = view.Price.ToString();
-                        equipmentDevices = view.ProductComponents;
+                        equipmentDevices = view.EquipmentDevices;
                         LoadData();
                     }
                 }
@@ -54,7 +56,7 @@ namespace SecuritySystemView
             }
             else
             {
-                equipmentDevices = new List<EquipmentDeviceViewModel>();
+                equipmentDevices = new Dictionary<int, (string, int)>();
             }
         }
 
@@ -64,60 +66,62 @@ namespace SecuritySystemView
             {
                 if (equipmentDevices != null)
                 {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = equipmentDevices;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridViewComponents.Rows.Clear();
+                    foreach (var pc in equipmentDevices)
+                    {
+                        dataGridViewComponents.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка tyta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormEquipmentDevice>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ModelView != null)
+                if (equipmentDevices.ContainsKey(form.Id))
                 {
-                    if (id.HasValue)
-                    {
-                        form.ModelView.EquipmentId = id.Value;
-                    }
-                    equipmentDevices.Add(form.ModelView);
+                    equipmentDevices[form.Id] = (form.DeviceName, form.Count);
+                }
+                else
+                {
+                    equipmentDevices.Add(form.Id, (form.DeviceName, form.Count));
                 }
                 LoadData();
             }
         }
 
-        private void buttonUpd_Click(object sender, EventArgs e)
+        private void ButtonUpd_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridViewComponents.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormEquipmentDevice>();
-                form.ModelView = equipmentDevices[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                int id = Convert.ToInt32(dataGridViewComponents.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = equipmentDevices[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    equipmentDevices[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.ModelView;
+                    equipmentDevices[form.Id] = (form.DeviceName, form.Count);
                     LoadData();
                 }
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void ButtonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridViewComponents.SelectedRows.Count == 1)
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
-                        equipmentDevices.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
+
+                        equipmentDevices.Remove(Convert.ToInt32(dataGridViewComponents.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -128,14 +132,14 @@ namespace SecuritySystemView
             }
         }
 
-        private void buttonRef_Click(object sender, EventArgs e)
+        private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxName.Text))
+            if (string.IsNullOrEmpty(textBoxNameProduct.Text))
             {
                 MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -147,41 +151,18 @@ namespace SecuritySystemView
             }
             if (equipmentDevices == null || equipmentDevices.Count == 0)
             {
-                MessageBox.Show("Заполните устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
-                List<EquipmentDeviceBindingModel> productDeviceBM = new List<EquipmentDeviceBindingModel>();
-                for (int i = 0; i < equipmentDevices.Count; ++i)
+                logic.CreateOrUpdate(new EquipmentBindingModel
                 {
-                    productDeviceBM.Add(new EquipmentDeviceBindingModel
-                    {
-                        Id = equipmentDevices[i].Id,
-                        EquipmentId = equipmentDevices[i].EquipmentId,
-                        DeviceId = equipmentDevices[i].DeviceId,
-                        Count = equipmentDevices[i].Count
-                    });
-                }
-                if (id.HasValue)
-                {
-                    logic.UpdElement(new EquipmentBindingModel
-                    {
-                        Id = id.Value,
-                        EquipmentName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        EquipmentDevices = productDeviceBM
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new EquipmentBindingModel
-                    {
-                        EquipmentName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        EquipmentDevices = productDeviceBM
-                    });
-                }
+                    Id = id ?? null,
+                    EquipmentName = textBoxNameProduct.Text,
+                    Price = Convert.ToDecimal(textBoxPrice.Text),
+                    EquipmentDevices = equipmentDevices
+                });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
@@ -192,7 +173,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

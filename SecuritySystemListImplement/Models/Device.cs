@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemsBusinessLogic.BindingModels
+namespace SecuritySystemListImplement.Models
 {
-    public class DeviceBindingModel
+    public class Device
     {
-        public int? Id { get; set; }
-
+        public int Id { get; set; }
         public string DeviceName { get; set; }
     }
 }

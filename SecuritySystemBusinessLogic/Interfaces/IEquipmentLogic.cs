@@ -8,14 +8,8 @@ namespace SecuritySystemsBusinessLogic.Interfaces
 {
     public interface IEquipmentLogic
     {
-        List<EquipmentViewModel> GetList();
-
-        EquipmentViewModel GetElement(int id);
-
-        void AddElement(EquipmentBindingModel model);
-
-        void UpdElement(EquipmentBindingModel model);
-
-        void DelElement(int id);
+        List<EquipmentViewModel> Read(EquipmentBindingModel model);
+        void CreateOrUpdate(EquipmentBindingModel model);
+        void Delete(EquipmentBindingModel model);
     }
 }

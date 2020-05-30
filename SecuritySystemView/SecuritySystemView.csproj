@@ -108,9 +108,6 @@
     <EmbeddedResource Include="FormDevices.resx">
       <DependentUpon>FormDevices.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEquipment.resx">
-      <DependentUpon>FormEquipment.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormEquipmentDevice.resx">
       <DependentUpon>FormEquipmentDevice.cs</DependentUpon>
     </EmbeddedResource>
@@ -148,9 +145,9 @@
       <Project>{0311b2db-0eed-4078-9aa8-743d2a105013}</Project>
       <Name>SecuritySystemBusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="SecuritySystemsListImplement\SecuritySystemsListImplement.csproj">
-      <Project>{56a4ea1d-67bc-4d3d-bdc9-86fc109f4fcb}</Project>
-      <Name>SecuritySystemsListImplement</Name>
+    <ProjectReference Include="..\SecuritySystemListImplement\SecuritySystemListImplement.csproj">
+      <Project>{d5c01559-3a18-42e1-b612-2ca014f7d731}</Project>
+      <Name>SecuritySystemListImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

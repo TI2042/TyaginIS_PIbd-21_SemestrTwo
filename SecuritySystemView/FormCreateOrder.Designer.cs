@@ -46,7 +46,7 @@
             this.buttonCancel.TabIndex = 15;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // buttonSave
             // 
@@ -56,7 +56,7 @@
             this.buttonSave.TabIndex = 14;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // comboBoxProduct
             // 
@@ -65,7 +65,7 @@
             this.comboBoxProduct.Name = "comboBoxProduct";
             this.comboBoxProduct.Size = new System.Drawing.Size(227, 24);
             this.comboBoxProduct.TabIndex = 13;
-            this.comboBoxProduct.Click += new System.EventHandler(this.comboBoxProduct_SelectedIndexChanged);
+            this.comboBoxProduct.Click += new System.EventHandler(this.ComboBoxProduct_SelectedIndexChanged);
             // 
             // textBoxSum
             // 
