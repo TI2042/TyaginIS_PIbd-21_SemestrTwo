@@ -5,6 +5,8 @@ using SecuritySystemsBusinessLogic.BusinessLogic;
 using System;
 using System.Windows.Forms;
 using Unity;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.ViewModels;
 
 namespace SecuritySystemView
 {
@@ -13,14 +15,15 @@ namespace SecuritySystemView
         [Dependency] public new IUnityContainer Container { get; set; }
 
         private readonly IEquipmentLogic logicP;
-
+        private readonly IClientLogic logicC;
         private readonly MainLogic logicM;
 
-        public FormCreateOrder(IEquipmentLogic logicP, MainLogic logicM)
+        public FormCreateOrder(IEquipmentLogic logicP, MainLogic logicM, IClientLogic logicC)
         {
             InitializeComponent();
             this.logicP = logicP;
             this.logicM = logicM;
+            this.logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
@@ -30,8 +33,16 @@ namespace SecuritySystemView
                 var listP = logicP.Read(null); if (listP != null)
                 {
                     comboBoxProduct.DisplayMember = "EquipmentName";
-                    comboBoxProduct.ValueMember = "Id"; comboBoxProduct.DataSource = listP;
+                    comboBoxProduct.ValueMember = "Id";
+                    comboBoxProduct.DataSource = listP;
                     comboBoxProduct.SelectedItem = null;
+                }
+                var listClients = logicC.Read(null);
+                if (listClients != null)
+                {
+                    comboBoxClients.DisplayMember = "ClientFIO";
+                    comboBoxClients.DataSource = listClients;
+                    comboBoxClients.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -78,6 +89,11 @@ namespace SecuritySystemView
                 MessageBox.Show("Заполните поле Количество", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClients.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (comboBoxProduct.SelectedValue == null)
             {
                 MessageBox.Show("Выберите комплектацию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -89,7 +105,9 @@ namespace SecuritySystemView
                 {
                     EquipmentId = Convert.ToInt32(comboBoxProduct.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
-                    Sum = Convert.ToDecimal(textBoxSum.Text)
+                    Sum = Convert.ToDecimal(textBoxSum.Text),
+                    ClientId = (comboBoxClients.SelectedItem as ClientViewModel).Id,
+                    ClientFIO = (comboBoxClients.SelectedItem as ClientViewModel).ClientFIO
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
@@ -106,5 +124,6 @@ namespace SecuritySystemView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
     }
 }

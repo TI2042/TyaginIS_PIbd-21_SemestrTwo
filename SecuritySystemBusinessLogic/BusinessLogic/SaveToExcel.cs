@@ -12,7 +12,7 @@ using System.Text;
 
 namespace SecuritySystemBusinessLogic.BusinessLogic
 {
-    public static class SaveToExcel
+    public class SaveToExcel
     {
         public static void CreateDoc(ExcelInfo info)
         {
@@ -86,15 +86,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 });
                 uint rowIndex = 3;
                 //собираем информацию по заказам в словарь
-                Dictionary<string, List<ReportOrdersViewModel>> dictOrders = new Dictionary<string, List<ReportOrdersViewModel>>();
-                foreach (var elem in info.Orders)
-                {
-                    if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
-                        dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
-                    else
-                        dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
-                }
-                foreach (var order in dictOrders)
+                foreach (var orderGroup in info.Orders)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -102,12 +94,12 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = order.Key,
+                        Text = orderGroup.Key,
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    decimal totalPrice = 0;
-                    foreach (var equipment in order.Value)
+                    decimal sum = 0;
+                    foreach (var order in orderGroup)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -115,7 +107,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = equipment.EquipmentName,
+                            Text = order.EquipmentName,
                             StyleIndex = 0U
                         });
                         InsertCellInWorksheet(new ExcelCellParameters
@@ -124,11 +116,11 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = equipment.Sum.ToString(),
+                            Text = order.Sum.ToString(),
                             StyleIndex = 0U
                         });
-                        totalPrice += equipment.Sum;
                         rowIndex++;
+                        sum += order.Sum;
                     }
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -136,7 +128,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = "Всего",
+                        Text = "Всего:",
                         StyleIndex = 0U
                     });
                     InsertCellInWorksheet(new ExcelCellParameters
@@ -145,7 +137,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "C",
                         RowIndex = rowIndex,
-                        Text = totalPrice.ToString(),
+                        Text = sum.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;

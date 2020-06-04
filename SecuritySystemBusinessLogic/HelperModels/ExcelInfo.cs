@@ -1,6 +1,7 @@
 ﻿using SecuritySystemBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SecuritySystemBusinessLogic.HelperModels
@@ -11,6 +12,6 @@ namespace SecuritySystemBusinessLogic.HelperModels
 
         public string Title { get; set; }
 
-        public List<ReportOrdersViewModel> Orders { get; set; }
+        public List<IGrouping<string, ReportOrdersViewModel>> Orders { get; set; }
     }
 }

@@ -36,9 +36,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.ReportDeviceEquipmentViewModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // ReportDeviceEquipmentViewModelBindingSource
+            // 
+            this.ReportDeviceEquipmentViewModelBindingSource.DataSource = typeof(SecuritySystemsBusinessLogic.ViewModels.ReportDeviceEquipmentViewModel);
+            // 
             // reportViewer1
             // 
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SecuritySystemView.ReportOrder.rdlc";
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SecuritySystemsView.Report.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(2, 64);
             this.reportViewer1.Name = "reportViewer1";
             this.reportViewer1.ServerReport.BearerToken = null;
@@ -75,7 +79,6 @@
             this.Controls.Add(this.reportViewer1);
             this.Name = "FormReportDeviceEquipment";
             this.Text = "FormReportDeviceEquipment";
-            this.Load += new System.EventHandler(this.FormReportDeviceEquipment_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.ReportDeviceEquipmentViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 

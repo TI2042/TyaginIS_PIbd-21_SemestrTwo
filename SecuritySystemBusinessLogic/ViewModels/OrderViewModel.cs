@@ -1,4 +1,6 @@
-﻿using SecuritySystemsBusinessLogic.Enums;
+﻿using SecuritySystemBusinessLogic.Attributes;
+using SecuritySystemBusinessLogic.ViewModels;
+using SecuritySystemsBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,36 +10,39 @@ using System.Text;
 namespace SecuritySystemsBusinessLogic.ViewModels
 {
     [DataContract]
-    public class OrderViewModel
+    public class OrderViewModel : BaseViewModel
     {
-        [DataMember]
-        public int Id { get; set; }
         [DataMember]
         public int ClientId { set; get; }
         [DataMember]
+        [Column(title: "ФИО Клиента", width: 150)]
         public string ClientFIO { set; get; }
         [DataMember]
         public int EquipmentId { get; set; }
         [DataMember]
-        [DisplayName("Комплектация")]
+        [Column(title: "Комплектация", gridViewAutoSize: GridViewAutoSize.DisplayedCells)]
         public string EquipmentName { get; set; }
         [DataMember]
-        [DisplayName("Количество")]
+        [Column(title: "Количество", width: 100)]
         public int Count { get; set; }
         [DataMember]
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 50)]
         public decimal Sum { get; set; }
-        [DisplayName("Рабочий")]
+        [Column(title: "Исполнитель", width: 150)]
         public string ImplementerFIO { set; get; }
         [DataMember]
-        [DisplayName("Статус")]
+        [Column(title: "Статус", width: 100)]
         public OrderStatus Status { get; set; }
         [DataMember]
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100)]
         public DateTime DateCreate { get; set; }
         [DataMember]
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 100)]
         public DateTime? DateImplement { get; set; }
+        [DataMember]
         public int? ImplementorId { set; get; }
+
+        public override List<string> Properties() => new List<string> { "Id",
+        "ClientFIO", "EquipmentName", "ImplementerFIO", "Count", "Sum", "Status", "DateCreate", "DateImplement" };
     }
 }
