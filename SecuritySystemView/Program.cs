@@ -7,6 +7,9 @@ using Unity.Lifetime;
 using SecuritySystemDataBaseImplement.Implements;
 using SecuritySystemBusinessLogic.BusinessLogic;
 using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemBusinessLogic.HelperModels;
+using System.Threading;
+using System.Configuration;
 
 namespace SecuritySystemView
 {
@@ -19,9 +22,29 @@ namespace SecuritySystemView
         static void Main()
         {
             var container = BuildUnityContainer();
+
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = ConfigurationManager.AppSettings["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpClientPort"]),
+                MailLogin = ConfigurationManager.AppSettings["MailLogin"],
+                MailPassword = ConfigurationManager.AppSettings["MailPassword"],
+            });
+
+            var timer = new System.Threading.Timer(new TimerCallback(MailCheck), new MailCheckInfo
+            {
+                PopHost = ConfigurationManager.AppSettings["PopHost"],
+                PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"]),
+                Logic = container.Resolve<IMessageInfoLogic>()
+            }, 0, 100000);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(container.Resolve<FormMain>());
+        }
+        private static void MailCheck(object obj)
+        {
+            MailLogic.MailCheck((MailCheckInfo)obj);
         }
         private static IUnityContainer BuildUnityContainer()
         {
@@ -34,6 +57,7 @@ namespace SecuritySystemView
             currentContainer.RegisterType<IClientLogic, ClientLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<WorkModeling>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

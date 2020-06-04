@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecuritySystemDataBaseImplement.Models;
 using System;
+using System.Collections.Generic;
 
 namespace SecuritySystemDataBaseImplement
 {
@@ -25,5 +26,6 @@ namespace SecuritySystemDataBaseImplement
         public virtual DbSet<Order> Orders { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
         public virtual DbSet<Implementer> Implementers { set; get; }
+        public virtual DbSet<MessageInfo> MessageInfos { set; get; }
     }
 }

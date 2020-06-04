@@ -34,6 +34,7 @@
             this.создатьЗаказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.редактироватьПрофильToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обновитьСписокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.посмотретьСообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientOrders)).BeginInit();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +43,7 @@
             // 
             this.dataGridViewClientOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewClientOrders.Location = new System.Drawing.Point(2, 26);
-            this.dataGridViewClientOrders.Name = "dataGridViewClientOrders";
+            this.dataGridViewClientOrders.Name = "dataGridView1";
             this.dataGridViewClientOrders.Size = new System.Drawing.Size(643, 273);
             this.dataGridViewClientOrders.TabIndex = 0;
             // 
@@ -61,7 +62,8 @@
             this.менюToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.создатьЗаказToolStripMenuItem,
             this.редактироватьПрофильToolStripMenuItem,
-            this.обновитьСписокЗаказовToolStripMenuItem});
+            this.обновитьСписокЗаказовToolStripMenuItem,
+            this.посмотретьСообщенияToolStripMenuItem});
             this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
             this.менюToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.менюToolStripMenuItem.Text = "Меню";
@@ -72,6 +74,13 @@
             this.создатьЗаказToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.создатьЗаказToolStripMenuItem.Text = "Создать заказ";
             this.создатьЗаказToolStripMenuItem.Click += CreateOrderToolStripMenuItem_Click;
+            //
+            // посмотретьСообщения
+            //
+            this.посмотретьСообщенияToolStripMenuItem.Name = "посмотретьСообщенияToolStripMenuItem";
+            this.посмотретьСообщенияToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.посмотретьСообщенияToolStripMenuItem.Text = "Посмотреть сообщения";
+            this.посмотретьСообщенияToolStripMenuItem.Click += ShowMessagesToolStripMenuItem_Click;
             // 
             // редактироватьПрофильToolStripMenuItem
             // 
@@ -96,7 +105,7 @@
             this.Controls.Add(this.menu);
             this.MainMenuStrip = this.menu;
             this.Name = "FormMainClient";
-            this.Text = "Охранные системы";
+            this.Text = "FormMainClient";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientOrders)).EndInit();
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
@@ -113,5 +122,6 @@
         private System.Windows.Forms.ToolStripMenuItem создатьЗаказToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem редактироватьПрофильToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem обновитьСписокЗаказовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem посмотретьСообщенияToolStripMenuItem;
     }
 }

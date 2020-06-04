@@ -17,12 +17,16 @@ namespace SecuritySystemFileImplement
         private readonly string EquipmentDeviceFileName = "EquipmentDevice.xml";
         private readonly string ClientFileName = "Client.xml";
         private readonly string ImplementerFileName = "Implementer.xml";
+        private readonly string MessageInfoFileName = "MessageInfo.xml";
+
         public List<Device> Devices { get; set; }
         public List<Order> Orders { get; set; }
         public List<Equipment> Equipments { get; set; }
         public List<EquipmentDevice> EquipmentDevices { get; set; }
         public List<Client> Clients { set; get; }
         public List<Implementer> Implementers { set; get; }
+        public List<MessageInfo> MessageInfoes { get; set; }
+
         private FileDataListSingleton()
         {
             Devices = LoadDevices();
@@ -30,6 +34,8 @@ namespace SecuritySystemFileImplement
             Equipments = LoadEquipments();
             EquipmentDevices = LoadEquipmentDevices();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
+            MessageInfoes = LoadMessageInfoes();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -49,6 +55,7 @@ namespace SecuritySystemFileImplement
             SaveProductComponents();
             SaveClients();
             SaveImplementers();
+            SaveMessageInfoes();
         }
 
         private List<Client> LoadClients()
@@ -88,6 +95,31 @@ namespace SecuritySystemFileImplement
                     });
                 }
             }
+            return list;
+        }
+        private List<MessageInfo> LoadMessageInfoes()
+        {
+            var list = new List<MessageInfo>();
+
+            if (File.Exists(MessageInfoFileName))
+            {
+                XDocument xDocument = XDocument.Load(MessageInfoFileName);
+                var xElements = xDocument.Root.Elements("MessageInfo").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        MessageId = elem.Attribute("MessageId").Value,
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        SenderName = elem.Element("SenderName").Value,
+                        DateDelivery = Convert.ToDateTime(elem.Element("DateDelivery").Value),
+                        Subject = elem.Element("Subject").Value,
+                        Body = elem.Element("Body").Value
+                    });
+                }
+            }
+
             return list;
         }
         private List<Device> LoadDevices()
@@ -280,6 +312,27 @@ namespace SecuritySystemFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(EquipmentDeviceFileName);
+            }
+        }
+        private void SaveMessageInfoes()
+        {
+            if (MessageInfoes != null)
+            {
+                var xElement = new XElement("MessageInfoes");
+
+                foreach (var messageInfo in MessageInfoes)
+                {
+                    xElement.Add(new XElement("MessageInfo",
+                    new XAttribute("Id", messageInfo.MessageId),
+                    new XElement("ClientId", messageInfo.ClientId),
+                    new XElement("SenderName", messageInfo.SenderName),
+                    new XElement("DateDelivery", messageInfo.DateDelivery),
+                    new XElement("Subject", messageInfo.Subject),
+                    new XElement("Body", messageInfo.Body)));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(MessageInfoFileName);
             }
         }
     }
