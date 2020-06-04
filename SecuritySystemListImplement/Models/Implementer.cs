@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SecuritySystemListImplement.Models
 {
-    public class Device
+    public class Implementer
     {
-        public int Id { get; set; }
-        public string DeviceName { get; set; }
+        public int Id { set; get; }
+        public string ImplementerFIO { set; get; }
     }
 }

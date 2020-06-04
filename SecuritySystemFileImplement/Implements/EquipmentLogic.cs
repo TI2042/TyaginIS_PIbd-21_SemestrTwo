@@ -1,15 +1,14 @@
-﻿using SecuritySystemFileImplement.Models;
+﻿using SecuritySystemListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SecuritySystemFileImplement.Implements
 {
-    public class EquipmentLogic: IEquipmentLogic
+    public class EquipmentLogic : IEquipmentLogic
     {
         private readonly FileDataListSingleton source;
         public EquipmentLogic()
