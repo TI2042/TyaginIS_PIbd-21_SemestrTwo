@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuritySystemBusinessLogic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuritySystemListImplement", "..\SecuritySystemListImplement\SecuritySystemListImplement.csproj", "{D5C01559-3A18-42E1-B612-2CA014F7D731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritySystemFileImplement", "..\SecuritySystemFileImplement\SecuritySystemFileImplement.csproj", "{816E61DE-04ED-4429-AF3D-D982E063254A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuritySystemFileImplement", "..\SecuritySystemFileImplement\SecuritySystemFileImplement.csproj", "{816E61DE-04ED-4429-AF3D-D982E063254A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritySystemDataBaseImplement", "..\SecuritySystemDataBaseImplement\SecuritySystemDataBaseImplement.csproj", "{DFD6E0E4-9CE9-4097-8D46-10B74C15BC47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuritySystemDataBaseImplement", "..\SecuritySystemDataBaseImplement\SecuritySystemDataBaseImplement.csproj", "{DFD6E0E4-9CE9-4097-8D46-10B74C15BC47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritySystemRestApi", "..\SecuritySystemRestApi\SecuritySystemRestApi.csproj", "{7D0A2319-C69D-40C7-833C-CF3042D88C1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritySystemClietView", "..\SecuritySystemClietView\SecuritySystemClietView.csproj", "{AECFBF41-9B33-4C91-AF84-80BB6819CAEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{DFD6E0E4-9CE9-4097-8D46-10B74C15BC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFD6E0E4-9CE9-4097-8D46-10B74C15BC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFD6E0E4-9CE9-4097-8D46-10B74C15BC47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D0A2319-C69D-40C7-833C-CF3042D88C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D0A2319-C69D-40C7-833C-CF3042D88C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D0A2319-C69D-40C7-833C-CF3042D88C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D0A2319-C69D-40C7-833C-CF3042D88C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AECFBF41-9B33-4C91-AF84-80BB6819CAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AECFBF41-9B33-4C91-AF84-80BB6819CAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AECFBF41-9B33-4C91-AF84-80BB6819CAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AECFBF41-9B33-4C91-AF84-80BB6819CAEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
