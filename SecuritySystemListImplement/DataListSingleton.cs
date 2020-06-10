@@ -1,4 +1,5 @@
-﻿using SecuritySystemListImplement.Models;
+﻿using SecuritySystemListImplement.Implements;
+using SecuritySystemListImplement.Models;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,8 @@ namespace SecuritySystemListImplement
         public List<Order> Orders { get; set; }
         public List<Equipment> Products { get; set; }
         public List<EquipmentDevice> ProductComponents { get; set; }
+        public List<Storage> Storages { get; set; }
+        public List<StorageDevices> StorageDevices { get; set; }
 
         private DataListSingleton()
         {
@@ -18,6 +21,8 @@ namespace SecuritySystemListImplement
             Orders = new List<Order>();
             Products = new List<Equipment>();
             ProductComponents = new List<EquipmentDevice>();
+            Storages = new List<Storage>();
+            StorageDevices = new List<StorageDevices>();
         }
         public static DataListSingleton GetInstance()
         {

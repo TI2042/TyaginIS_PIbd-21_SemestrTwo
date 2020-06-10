@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
 using SecuritySystemListImplement.Implements;
+using SecuritySystemBusinessLogic.Interfaces;
 
 namespace SecuritySystemView
 {
@@ -28,7 +29,7 @@ namespace SecuritySystemView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEquipmentLogic, EquipmentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
-
+            currentContainer.RegisterType<IStorageLogic, StorageLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

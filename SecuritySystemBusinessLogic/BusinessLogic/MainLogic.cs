@@ -1,4 +1,6 @@
-﻿using SecuritySystemsBusinessLogic.BindingModels;
+﻿using SecuritySystemBusinessLogic.BindingModels;
+using SecuritySystemBusinessLogic.Interfaces;
+using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Enums;
 using SecuritySystemsBusinessLogic.Interfaces;
 using System;
@@ -10,10 +12,12 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
+        private readonly IStorageLogic storageLogic;
 
-        public MainLogic(IOrderLogic orderLogic)
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -104,6 +108,11 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        public void AddDevices(AddDeviceInStorageBindingModel model)
+        {
+            storageLogic.AddDeviceToStorage(model);
         }
     }
 }

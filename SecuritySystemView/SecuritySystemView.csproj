@@ -91,6 +91,24 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStorage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorage.Designer.cs">
+      <DependentUpon>FormStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorageAddDevcies.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorageAddDevcies.Designer.cs">
+      <DependentUpon>FormStorageAddDevcies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorageDevices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorageDevices.Designer.cs">
+      <DependentUpon>FormStorageDevices.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSystems.cs">
       <SubType>Form</SubType>
     </Compile>

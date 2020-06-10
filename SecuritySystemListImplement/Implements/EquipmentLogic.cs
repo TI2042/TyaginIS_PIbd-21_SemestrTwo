@@ -11,12 +11,10 @@ namespace SecuritySystemListImplement.Implements
     public class EquipmentLogic : IEquipmentLogic
     {
         private readonly DataListSingleton source;
-
         public EquipmentLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(EquipmentBindingModel model)
         {
             Equipment tempProduct = model.Id.HasValue ? null : new Equipment { Id = 1 };
@@ -48,7 +46,6 @@ namespace SecuritySystemListImplement.Implements
                 source.Products.Add(CreateModel(model, tempProduct));
             }
         }
-
         public void Delete(EquipmentBindingModel model)
         {
             // удаляем записи по компонентам при удалении изделия
@@ -69,7 +66,6 @@ namespace SecuritySystemListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-
         private Equipment CreateModel(EquipmentBindingModel model, Equipment product)
         {
             product.EquipmentName = model.EquipmentName;
@@ -91,8 +87,8 @@ namespace SecuritySystemListImplement.Implements
                         // обновляем количество
                         source.ProductComponents[i].Count =
                         model.EquipmentDevices[source.ProductComponents[i].DeviceId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не
-                        //просмотренные
+                        // из модели убираем эту запись, чтобы остались только не просмотренные
+
                         model.EquipmentDevices.Remove(source.ProductComponents[i].DeviceId);
                     }
                     else
@@ -114,7 +110,6 @@ namespace SecuritySystemListImplement.Implements
             }
             return product;
         }
-
         public List<EquipmentViewModel> Read(EquipmentBindingModel model)
         {
             List<EquipmentViewModel> result = new List<EquipmentViewModel>();
@@ -133,26 +128,25 @@ namespace SecuritySystemListImplement.Implements
             }
             return result;
         }
-
         private EquipmentViewModel CreateViewModel(Equipment product)
         {
-            // требуется дополнительно получить список компонентов для изделия с
-            // названиями и их количество
-            Dictionary<int, (string, int)> equipmentDevices = new Dictionary<int, (string, int)>();
-            foreach (var dm in source.ProductComponents)
+            // требуется дополнительно получить список компонентов для изделия с  названиями и их количество
+            Dictionary<int, (string, int)> pizzaDevices = new Dictionary<int,
+    (string, int)>();
+            foreach (var pc in source.ProductComponents)
             {
-                if (dm.EquipmentId == product.Id)
+                if (pc.EquipmentId == product.Id)
                 {
                     string componentName = string.Empty;
                     foreach (var component in source.Components)
                     {
-                        if (dm.DeviceId == component.Id)
+                        if (pc.DeviceId == component.Id)
                         {
                             componentName = component.DeviceName;
                             break;
                         }
                     }
-                    equipmentDevices.Add(dm.DeviceId, (componentName, dm.Count));
+                    pizzaDevices.Add(pc.DeviceId, (componentName, pc.Count));
                 }
             }
             return new EquipmentViewModel
@@ -160,7 +154,7 @@ namespace SecuritySystemListImplement.Implements
                 Id = product.Id,
                 EquipmentName = product.EquipmentName,
                 Price = product.Price,
-                EquipmentDevices = equipmentDevices
+                EquipmentDevices = pizzaDevices
             };
         }
     }
