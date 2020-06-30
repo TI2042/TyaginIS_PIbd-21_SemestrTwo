@@ -25,26 +25,20 @@ namespace SecuritySystemFileImplement.Implements
             {
                 order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
-                    throw new Exception("Элемент не найден");
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
+                    throw new Exception("Элемент не найден");               
             }
             else
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
-                order = new Order { Id = maxId + 1 };
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
+                order = new Order { Id = maxId + 1 };             
                 source.Orders.Add(order);
-            }
+            } 
+            order.EquipmentId = model.EquipmentId;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
         }
 
         public void Delete(OrderBindingModel model)
@@ -68,7 +62,7 @@ namespace SecuritySystemFileImplement.Implements
             {
                 Id = rec.Id,
                 EquipmentId = rec.EquipmentId,
-                EquipmentName = source.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                EquipmentName = source.Equipments.FirstOrDefault(x => x.Id == rec.EquipmentId)?.EquipmentName,
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
