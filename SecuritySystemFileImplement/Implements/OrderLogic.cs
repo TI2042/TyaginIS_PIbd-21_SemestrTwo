@@ -25,26 +25,20 @@ namespace SecuritySystemFileImplement.Implements
             {
                 order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
-                    throw new Exception("Элемент не найден");
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
+                    throw new Exception("Элемент не найден");               
             }
             else
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
                 order = new Order { Id = maxId + 1 };
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
                 source.Orders.Add(order);
             }
+            order.EquipmentId = model.EquipmentId;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
         }
 
         public void Delete(OrderBindingModel model)
@@ -63,16 +57,21 @@ namespace SecuritySystemFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null
+                || rec.Id == model.Id
+                || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                || model.ClientId.HasValue && rec.ClientId == model.ClientId)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 EquipmentId = rec.EquipmentId,
-                EquipmentName = source.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                EquipmentName = source.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId)?.EquipmentName,
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
                 Status = rec.Status,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Sum = rec.Sum
             }).ToList();
         }

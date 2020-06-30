@@ -89,6 +89,8 @@ namespace SecuritySystemFileImplement.Implements
             order.EquipmentId = model.EquipmentId;
             order.Status = model.Status;
             order.Sum = model.Sum;
+            order.ClientId = model.ClientId;
+            order.ClientFIO = model.ClientFIO;
             return order;
         }
 
@@ -104,7 +106,9 @@ namespace SecuritySystemFileImplement.Implements
                 EquipmentName = equipmentName,
                 EquipmentId = order.EquipmentId,
                 Status = order.Status,
-                Sum = order.Sum
+                Sum = order.Sum,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO
             };
         }
     }

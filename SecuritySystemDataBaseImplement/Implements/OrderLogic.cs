@@ -21,30 +21,23 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     try
                     {
-                        Order order;
+                        Order order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                         if (model.Id.HasValue)
                         {
-                            order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                             if (order == null)
-                                throw new Exception("Элемент не найден");
-                            order.EquipmentId = model.EquipmentId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
+                                throw new Exception("Элемент не найден");                          
                         }
                         else
                         {
                             order = new Order();
-                            order.EquipmentId = model.EquipmentId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
                             context.Orders.Add(order);
                         }
+                        order.EquipmentId = model.EquipmentId;
+                        order.Count = model.Count;
+                        order.DateCreate = model.DateCreate;
+                        order.DateImplement = model.DateImplement;
+                        order.Status = model.Status;
+                        order.Sum = model.Sum;
                         context.SaveChanges();
                         transaction.Commit();
                     }
