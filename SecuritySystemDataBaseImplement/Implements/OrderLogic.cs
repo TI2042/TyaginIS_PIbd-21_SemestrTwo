@@ -7,7 +7,7 @@ using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemDataBaseImplement.Models;
 using SecuritySystemsBusinessLogic.ViewModels;
-
+using SecuritySystemsBusinessLogic.Enums;
 
 namespace SecuritySystemDataBaseImplement.Implements
 {
@@ -26,25 +26,22 @@ namespace SecuritySystemDataBaseImplement.Implements
                         {
                             order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                             if (order == null)
-                                throw new Exception("Элемент не найден");
-                            order.EquipmentId = model.EquipmentId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
+                                throw new Exception("Элемент не найден");                        
                         }
                         else
                         {
                             order = new Order();
-                            order.EquipmentId = model.EquipmentId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
                             context.Orders.Add(order);
                         }
+                        order.ClientFIO = model.ClientFIO;
+                        order.ClientId = model.ClientId;
+                        order.EquipmentId = model.EquipmentId;
+                        order.Count = model.Count;
+                        order.DateCreate = model.DateCreate;
+                        order.DateImplement = model.DateImplement;
+                        order.Status = model.Status;
+                        order.Sum = model.Sum;
+                        order.ImplementerId = model.ImplementerId;
                         context.SaveChanges();
                         transaction.Commit();
                     }
@@ -90,16 +87,24 @@ namespace SecuritySystemDataBaseImplement.Implements
         {
             using (var context = new SecuritySystemDataBase())
             {
-                return context.Orders.Where(rec => model == null || rec.Id == model.Id)
-                .ToList()
+                return context.Orders.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
+                && (rec.DateCreate <= model.DateTo) || (model.ClientId == rec.ClientId) ||
+                (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
+                .Include(ord => ord.Equipment)
+                .Include(ord => ord.Implementer)
                 .Select(rec => new OrderViewModel()
                 {
                     Id = rec.Id,
                     EquipmentId = rec.EquipmentId,
                     EquipmentName = context.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                    ClientFIO = rec.ClientFIO,
+                    ClientId = rec.ClientId,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
+                    ImplementorId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Status = rec.Status,
                     Sum = rec.Sum
                 }).ToList();
