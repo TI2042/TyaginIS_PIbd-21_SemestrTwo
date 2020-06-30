@@ -25,26 +25,20 @@ namespace SecuritySystemFileImplement.Implements
             {
                 order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
-                    throw new Exception("Элемент не найден");
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
+                    throw new Exception("Элемент не найден");               
             }
             else
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
                 order = new Order { Id = maxId + 1 };
-                order.EquipmentId = model.EquipmentId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
                 source.Orders.Add(order);
             }
+            order.EquipmentId = model.EquipmentId;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
         }
 
         public void Delete(OrderBindingModel model)
