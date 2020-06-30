@@ -31,7 +31,6 @@ namespace SecuritySystemFileImplement.Implements
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
                 order = new Order { Id = maxId + 1 };
-
                 source.Orders.Add(order);
             }
             order.EquipmentId = model.EquipmentId;
@@ -80,6 +79,8 @@ namespace SecuritySystemFileImplement.Implements
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
                 Status = rec.Status,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Sum = rec.Sum
             }).ToList();
         }

@@ -21,10 +21,9 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     try
                     {
-                        Order order;
+                        Order order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                         if (model.Id.HasValue)
                         {
-                            order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                             if (order == null)
                                 throw new Exception("Элемент не найден");                           
                         }
@@ -100,11 +99,15 @@ namespace SecuritySystemDataBaseImplement.Implements
                     ClientFIO = rec.ClientFIO,
                     ClientId = rec.ClientId,
                     EquipmentName = context.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                    ClientFIO = rec.ClientFIO,
+                    ClientId = rec.ClientId,
                     Count = rec.Count,
                     ImplementorId = rec.ImplementerId,
                     ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
+                    ImplementorId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Status = rec.Status,
                     Sum = rec.Sum
                 }).ToList();
