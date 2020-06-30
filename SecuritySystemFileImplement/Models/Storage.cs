@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Models
+namespace SecuritySystemFileImplement.Models
 {
-    public class Device
+    public class Storage
     {
         public int Id { get; set; }
-        public string DeviceName { get; set; }
+        public string StorageName { get; set; }
     }
 }

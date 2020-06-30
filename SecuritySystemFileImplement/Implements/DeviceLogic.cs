@@ -11,11 +11,11 @@ namespace SecuritySystemFileImplement.Implements
 {
     public class DeviceLogic : IDeviceLogic
     {
-        private readonly FileDataListSingleton source;
+        private readonly DataFileSingleton source;
 
         public DeviceLogic()
         {
-            source = FileDataListSingleton.GetInstance();
+            source = DataFileSingleton.GetInstance();
         }
 
         public void CreateOrUpdate(DeviceBindingModel model)

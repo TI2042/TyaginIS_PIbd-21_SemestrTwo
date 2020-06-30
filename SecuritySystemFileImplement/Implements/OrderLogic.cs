@@ -11,11 +11,11 @@ namespace SecuritySystemFileImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
-        private readonly FileDataListSingleton source;
+        private readonly DataFileSingleton source;
 
         public OrderLogic()
         {
-            source = FileDataListSingleton.GetInstance();
+            source = DataFileSingleton.GetInstance();
         }
 
         public void CreateOrUpdate(OrderBindingModel model)

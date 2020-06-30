@@ -11,10 +11,10 @@ namespace SecuritySystemFileImplement.Implements
 {
     public class EquipmentLogic: IEquipmentLogic
     {
-        private readonly FileDataListSingleton source;
+        private readonly DataFileSingleton source;
         public EquipmentLogic()
         {
-            source = FileDataListSingleton.GetInstance();
+            source = DataFileSingleton.GetInstance();
         }
         public void CreateOrUpdate(EquipmentBindingModel model)
         {

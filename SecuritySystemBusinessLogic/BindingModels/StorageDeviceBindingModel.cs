@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemListImplement.Models
+namespace SecuritySystemBusinessLogic.BindingModels
 {
-    public class EquipmentDevice
+    public class StorageDeviceBindingModel
     {
         public int Id { get; set; }
-        public int EquipmentId { get; set; }
+
+        public int StorageId { get; set; }
+
         public int DeviceId { get; set; }
+
         public int Count { get; set; }
     }
 }

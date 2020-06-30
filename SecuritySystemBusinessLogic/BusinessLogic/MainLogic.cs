@@ -13,13 +13,14 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
     {
         private readonly IOrderLogic orderLogic;
         private readonly IStorageLogic storageLogic;
-
-        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
+        private readonly IEquipmentLogic equipmentLogic;
+        public MainLogic(IOrderLogic orderLogic, IEquipmentLogic equipmentLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
-        }
+            this.equipmentLogic = equipmentLogic;
 
+        }
         public void CreateOrder(CreateOrderBindingModel model)
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
@@ -31,7 +32,6 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
                 Status = OrderStatus.Принят
             });
         }
-
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
             var order = orderLogic.Read(new OrderBindingModel
@@ -42,28 +42,31 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (storageLogic.RemoveDevices(order))
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    EquipmentId = order.EquipmentId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
+            else
             {
-                Id = order.Id,
-                EquipmentId = order.EquipmentId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
+                throw new Exception("Не хватает устройств на складах!");
+            }
         }
-
         public void FinishOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -83,13 +86,9 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
                 Status = OrderStatus.Готов
             });
         }
-
         public void PayOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -109,7 +108,7 @@ namespace SecuritySystemsBusinessLogic.BusinessLogic
                 Status = OrderStatus.Оплачен
             });
         }
-
+       
         public void AddDevices(AddDeviceInStorageBindingModel model)
         {
             storageLogic.AddDeviceToStorage(model);

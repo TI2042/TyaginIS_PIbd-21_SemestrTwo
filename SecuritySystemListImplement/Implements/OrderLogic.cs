@@ -1,13 +1,12 @@
-﻿using SecuritySystemFileImplement.Models;
+﻿using SecuritySystemListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace SecuritySystemFileImplement.Implements
+namespace SecuritySystemListImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
@@ -99,7 +98,7 @@ namespace SecuritySystemFileImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            var equipmentName = source.Products.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
+            var equipmentName = source.Equipments.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
             return new OrderViewModel
             {
                 Id = order.Id,
