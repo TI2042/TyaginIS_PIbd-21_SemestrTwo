@@ -33,6 +33,7 @@ namespace SecuritySystemFileImplement.Implements
                 order = new Order { Id = maxId + 1 };             
                 source.Orders.Add(order);
             } 
+
             order.EquipmentId = model.EquipmentId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
