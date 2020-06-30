@@ -21,10 +21,9 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     try
                     {
-                        Order order;
+                        Order order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                         if (model.Id.HasValue)
                         {
-                            order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                             if (order == null)
                                 throw new Exception("Элемент не найден");
                         }
