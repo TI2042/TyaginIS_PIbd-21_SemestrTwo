@@ -15,8 +15,8 @@ namespace SecuritySystemView
 {
     public partial class FormEquipmentDevice : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         public int Id
         {
             get { return Convert.ToInt32(comboBoxComponent.SelectedValue); }
@@ -25,10 +25,13 @@ namespace SecuritySystemView
         public string DeviceName { get { return comboBoxComponent.Text; } }
         public int Count
         {
-            get { return Convert.ToInt32(textBoxCountComponent.Text); }
+            get
+            {
+                return Convert.ToInt32(textBoxCount.Text);
+            }
             set
             {
-                textBoxCountComponent.Text = value.ToString();
+                textBoxCount.Text = value.ToString();
             }
         }
 
@@ -47,7 +50,7 @@ namespace SecuritySystemView
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxCountComponent.Text))
+            if (string.IsNullOrEmpty(textBoxCount.Text))
             {
                 MessageBox.Show("Заполните поле Количество", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

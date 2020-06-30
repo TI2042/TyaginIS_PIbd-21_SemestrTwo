@@ -4,68 +4,66 @@ using SecuritySystemsBusinessLogic.BusinessLogic;
 using System;
 using System.Windows.Forms;
 using Unity;
-using SecuritySystemListImplement.Implements;
+using SecuritySystemFileImplement.Implements;
 
 namespace SecuritySystemView
 {
     public partial class FormMain : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
-
         public FormMain(MainLogic logic, IOrderLogic orderLogic)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
+            LoadData();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadData();
+
         }
 
         private void LoadData()
         {
-            try
+
+            var listOrders = orderLogic.Read(null);
+            if (listOrders != null)
             {
-                var listOrders = orderLogic.Read(null);
-                if (listOrders != null)
-                {
-                    dataGridView.DataSource = listOrders;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.DataSource = listOrders;
+                dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[1].Visible = false;
+                dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            dataGridView.Update();
+
+
         }
 
-        private void DevicesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormDevices>();
             form.ShowDialog();
         }
 
-        private void EquipmentesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormSystems>();
             form.ShowDialog();
         }
 
-        private void ButtonCreateOrder_Click(object sender, EventArgs e)
+        private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCreateOrder>();
             form.ShowDialog();
             LoadData();
         }
 
-        private void ButtonTakeOrderInWork_Click(object sender, EventArgs e)
+        private void buttonTakeOrderInWork_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -82,7 +80,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonOrderReady_Click(object sender, EventArgs e)
+        private void buttonOrderReady_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -99,7 +97,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonPayOrder_Click(object sender, EventArgs e)
+        private void buttonPayOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -111,13 +109,12 @@ namespace SecuritySystemView
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void ButtonRef_Click(object sender, EventArgs e)
+        private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }

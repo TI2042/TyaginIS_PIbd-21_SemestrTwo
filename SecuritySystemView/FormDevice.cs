@@ -15,10 +15,12 @@ namespace SecuritySystemView
 {
     public partial class FormDevice : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         public int Id { set { id = value; } }
+
         private readonly IDeviceLogic logic;
+
         private int? id;
 
         public FormDevice(IDeviceLogic logic)
@@ -46,7 +48,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxName.Text))
             {
@@ -70,7 +72,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
