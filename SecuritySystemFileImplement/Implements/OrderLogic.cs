@@ -62,7 +62,7 @@ namespace SecuritySystemFileImplement.Implements
             {
                 Id = rec.Id,
                 EquipmentId = rec.EquipmentId,
-                EquipmentName = source.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                EquipmentName = source.Equipments.FirstOrDefault(x => x.Id == rec.EquipmentId)?.EquipmentName,
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
