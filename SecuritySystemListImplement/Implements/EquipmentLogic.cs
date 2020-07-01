@@ -1,4 +1,4 @@
-﻿using SecuritySystemFileImplement.Models;
+﻿using SecuritySystemListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemFileImplement.Implements
+namespace SecuritySystemListImplement.Implements
 {
     public class EquipmentLogic : IEquipmentLogic
     {
