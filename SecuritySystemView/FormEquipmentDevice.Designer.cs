@@ -28,57 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelComponentName = new System.Windows.Forms.Label();
-            this.labelCountComponent = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.comboBoxComponent = new System.Windows.Forms.ComboBox();
-            this.textBoxCountComponent = new System.Windows.Forms.TextBox();
+            this.textBoxCount = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelComponentName
+            // label1
             // 
-            this.labelComponentName.AutoSize = true;
-            this.labelComponentName.Location = new System.Drawing.Point(13, 18);
-            this.labelComponentName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelComponentName.Name = "labelComponentName";
-            this.labelComponentName.Size = new System.Drawing.Size(84, 17);
-            this.labelComponentName.TabIndex = 0;
-            this.labelComponentName.Text = "Устройство";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Компонент";
             // 
-            // labelCountComponent
+            // label2
             // 
-            this.labelCountComponent.AutoSize = true;
-            this.labelCountComponent.Location = new System.Drawing.Point(13, 63);
-            this.labelCountComponent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelCountComponent.Name = "labelCountComponent";
-            this.labelCountComponent.Size = new System.Drawing.Size(86, 17);
-            this.labelCountComponent.TabIndex = 1;
-            this.labelCountComponent.Text = "Количество";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 17);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Количество";
             // 
             // comboBoxComponent
             // 
             this.comboBoxComponent.FormattingEnabled = true;
-            this.comboBoxComponent.Location = new System.Drawing.Point(109, 15);
-            this.comboBoxComponent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxComponent.Location = new System.Drawing.Point(92, 8);
             this.comboBoxComponent.Name = "comboBoxComponent";
-            this.comboBoxComponent.Size = new System.Drawing.Size(255, 24);
+            this.comboBoxComponent.Size = new System.Drawing.Size(285, 24);
             this.comboBoxComponent.TabIndex = 2;
             // 
-            // textBoxCountComponent
+            // textBoxCount
             // 
-            this.textBoxCountComponent.Location = new System.Drawing.Point(109, 59);
-            this.textBoxCountComponent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textBoxCountComponent.Name = "textBoxCountComponent";
-            this.textBoxCountComponent.Size = new System.Drawing.Size(255, 22);
-            this.textBoxCountComponent.TabIndex = 3;
+            this.textBoxCount.Location = new System.Drawing.Point(92, 51);
+            this.textBoxCount.Name = "textBoxCount";
+            this.textBoxCount.Size = new System.Drawing.Size(285, 22);
+            this.textBoxCount.TabIndex = 3;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(148, 91);
-            this.buttonSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSave.Location = new System.Drawing.Point(75, 90);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(96, 34);
+            this.buttonSave.Size = new System.Drawing.Size(148, 27);
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -86,10 +81,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(269, 91);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonCancel.Location = new System.Drawing.Point(229, 90);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(96, 34);
+            this.buttonCancel.Size = new System.Drawing.Size(148, 27);
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -99,16 +93,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 139);
+            this.ClientSize = new System.Drawing.Size(389, 125);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.textBoxCountComponent);
+            this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.comboBoxComponent);
-            this.Controls.Add(this.labelCountComponent);
-            this.Controls.Add(this.labelComponentName);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Name = "FormEquipmentDevice";
-            this.Text = "Устрйство комплектации";
+            this.Text = "Компонент для комплекта";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,10 +109,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelComponentName;
-        private System.Windows.Forms.Label labelCountComponent;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxComponent;
-        private System.Windows.Forms.TextBox textBoxCountComponent;
+        private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
     }

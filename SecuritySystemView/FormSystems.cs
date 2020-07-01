@@ -15,17 +15,18 @@ namespace SecuritySystemView
 {
     public partial class FormSystems : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         private readonly IEquipmentLogic logic;
 
         public FormSystems(IEquipmentLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
+            LoadData();
         }
 
-        private void FormDisplayEquipmentes_Load(object sender, EventArgs e)
+        private void FormComponents_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -37,10 +38,10 @@ namespace SecuritySystemView
                 var list = logic.Read(null);
                 if (list != null)
                 {
-                    dataGridViewEquipmentes.DataSource = list;
-                    dataGridViewEquipmentes.Columns[0].Visible = false;
-                    dataGridViewEquipmentes.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridViewEquipmentes.Columns[3].Visible = false;
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -49,7 +50,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormEquipment>();
             if (form.ShowDialog() == DialogResult.OK)
@@ -58,12 +59,12 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonUpd_Click(object sender, EventArgs e)
+        private void buttonUpd_Click(object sender, EventArgs e)
         {
-            if (dataGridViewEquipmentes.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormEquipment>();
-                form.Id = Convert.ToInt32(dataGridViewEquipmentes.SelectedRows[0].Cells[0].Value);
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -71,13 +72,13 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonDel_Click(object sender, EventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewEquipmentes.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridViewEquipmentes.SelectedRows[0].Cells[0].Value);
+                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
                         logic.Delete(new EquipmentBindingModel { Id = id });
@@ -90,7 +91,8 @@ namespace SecuritySystemView
                 }
             }
         }
-        private void ButtonRef_Click(object sender, EventArgs e)
+
+        private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }
