@@ -89,7 +89,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     Id = rec.Id,
                     EquipmentId = rec.EquipmentId,
-                    EquipmentName = context.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
+                    EquipmentName =  rec.Equipment.EquipmentName,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
