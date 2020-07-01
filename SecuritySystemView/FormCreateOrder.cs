@@ -47,19 +47,22 @@ namespace SecuritySystemView
         {
             if (comboBoxProduct.SelectedValue != null && !string.IsNullOrEmpty(textBoxCount.Text))
             {
-                try
+                if (comboBoxProduct.SelectedValue != null && !string.IsNullOrEmpty(textBoxCount.Text))
                 {
-                    int id = Convert.ToInt32(comboBoxProduct.SelectedValue);
-                    EquipmentViewModel product = logicP.Read(new EquipmentBindingModel
+                    try
                     {
-                        Id = id
-                    })?[0];
-                    int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * product?.Price ?? 0).ToString();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        int id = Convert.ToInt32(comboBoxProduct.SelectedValue);
+                        EquipmentViewModel product = logicP.Read(new EquipmentBindingModel
+                        {
+                            Id = id
+                        })?[0];
+                        int count = Convert.ToInt32(textBoxCount.Text);
+                        textBoxSum.Text = (count * product.Price).ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }

@@ -8,34 +8,33 @@ using System.Text;
 
 namespace SecuritySystemListImplement.Implements
 {
-    public  class DeviceLogic : IDeviceLogic
+    public class DeviceLogic : IDeviceLogic
     {
         private readonly DataListSingleton source;
-
         public DeviceLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(DeviceBindingModel model)
         {
             Device tempComponent = model.Id.HasValue ? null : new Device
             {
                 Id = 1
             };
-            foreach (var Device in source.Components)
+            foreach (var component in source.Components)
             {
-                if (Device.DeviceName == model.DeviceName && Device.Id != model.Id)
+                if (component.DeviceName == model.DeviceName && component.Id !=
+               model.Id)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Уже есть ингредиент с таким названием");
                 }
-                if (!model.Id.HasValue && Device.Id >= tempComponent.Id)
+                if (!model.Id.HasValue && component.Id >= tempComponent.Id)
                 {
-                    tempComponent.Id = Device.Id + 1;
+                    tempComponent.Id = component.Id + 1;
                 }
-                else if (model.Id.HasValue && Device.Id == model.Id)
+                else if (model.Id.HasValue && component.Id == model.Id)
                 {
-                    tempComponent = Device;
+                    tempComponent = component;
                 }
             }
             if (model.Id.HasValue)
@@ -51,7 +50,6 @@ namespace SecuritySystemListImplement.Implements
                 source.Components.Add(CreateModel(model, tempComponent));
             }
         }
-
         public void Delete(DeviceBindingModel model)
         {
             for (int i = 0; i < source.Components.Count; ++i)
@@ -64,7 +62,6 @@ namespace SecuritySystemListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-
         public List<DeviceViewModel> Read(DeviceBindingModel model)
         {
             List<DeviceViewModel> result = new List<DeviceViewModel>();
@@ -83,13 +80,11 @@ namespace SecuritySystemListImplement.Implements
             }
             return result;
         }
-
         private Device CreateModel(DeviceBindingModel model, Device component)
         {
             component.DeviceName = model.DeviceName;
             return component;
         }
-
         private DeviceViewModel CreateViewModel(Device component)
         {
             return new DeviceViewModel

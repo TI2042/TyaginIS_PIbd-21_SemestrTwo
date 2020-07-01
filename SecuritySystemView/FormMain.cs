@@ -54,7 +54,7 @@ namespace SecuritySystemView
 
         private void EquipmentesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormEquipment>();
+            var form = Container.Resolve<FormSystems>();
             form.ShowDialog();
         }
 
@@ -120,6 +120,18 @@ namespace SecuritySystemView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void пополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageAddDevcies>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorage>();
+            form.ShowDialog();
         }
     }
 }
