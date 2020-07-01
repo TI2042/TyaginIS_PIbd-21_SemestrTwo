@@ -21,7 +21,7 @@ namespace SecuritySystemView
         public int Id { set { id = value; } }
         private readonly IStorageLogic logic;
         private int? id;
-        private Dictionary<string, int> skladDevices;
+        private Dictionary<string, int> storageDevices;
         public FormStorageDevices(IStorageLogic service)
         {
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace SecuritySystemView
                     if (view != null)
                     {
                         textBoxStorage.Text = view.StorageName;
-                        skladDevices = view.StorageDevices;
+                        storageDevices = view.StorageDevices;
                         LoadData();
                     }
                 }
@@ -53,17 +53,17 @@ namespace SecuritySystemView
             }
             else
             {
-                skladDevices = new Dictionary<string, int>();
+                storageDevices = new Dictionary<string, int>();
             }
         }
         private void LoadData()
         {
             try
             {
-                if (skladDevices != null)
+                if (storageDevices != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var pc in skladDevices)
+                    foreach (var pc in storageDevices)
                     {
                         dataGridView.Rows.Add(new object[] { "", pc.Key, pc.Value });
                     }
@@ -87,7 +87,7 @@ namespace SecuritySystemView
                 {
                     Id = id ?? null,
                     StorageName = textBoxStorage.Text,
-                    StorageDevices = skladDevices
+                    StorageDevices = storageDevices
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

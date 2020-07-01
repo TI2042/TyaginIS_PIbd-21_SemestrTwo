@@ -15,20 +15,18 @@ namespace SecuritySystemView
 {
     public partial class FormDevices : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+        [Dependency] public new IUnityContainer Container { get; set; }
+
         private readonly IDeviceLogic logic;
 
         public FormDevices(IDeviceLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
-        }
-
-        private void FormComponents_Load(object sender, EventArgs e)
-        {
             LoadData();
         }
+
+        private void FormComponents_Load(object sender, EventArgs e) { LoadData(); }
 
         private void LoadData()
         {
@@ -37,9 +35,7 @@ namespace SecuritySystemView
                 var list = logic.Read(null);
                 if (list != null)
                 {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.DataSource = list; dataGridView.Columns[0].Visible = false; dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -48,7 +44,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormDevice>();
             if (form.ShowDialog() == DialogResult.OK)
@@ -57,7 +53,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonUpd_Click(object sender, EventArgs e)
+        private void buttonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -70,7 +66,7 @@ namespace SecuritySystemView
             }
         }
 
-        private void ButtonDel_Click(object sender, EventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -83,14 +79,14 @@ namespace SecuritySystemView
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     LoadData();
                 }
             }
         }
-        private void ButtonRef_Click(object sender, EventArgs e)
+
+        private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }

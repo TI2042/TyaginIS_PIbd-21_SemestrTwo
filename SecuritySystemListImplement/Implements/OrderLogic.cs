@@ -5,7 +5,6 @@ using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SecuritySystemListImplement.Implements
 {
@@ -99,7 +98,7 @@ namespace SecuritySystemListImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            var equipmentName = source.Products.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
+            var equipmentName = source.Equipments.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
             return new OrderViewModel
             {
                 Id = order.Id,

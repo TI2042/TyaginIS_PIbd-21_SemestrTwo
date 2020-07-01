@@ -2,6 +2,7 @@
 using SecuritySystemBusinessLogic.Interfaces;
 using SecuritySystemBusinessLogic.ViewModels;
 using SecuritySystemListImplement.Models;
+using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,7 @@ namespace SecuritySystemListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
+
         public List<StorageViewModel> Read(StorageBindingModel model)
         {
             List<StorageViewModel> result = new List<StorageViewModel>();
@@ -87,7 +89,7 @@ namespace SecuritySystemListImplement.Implements
                             Id = storage.Id,
                             StorageName = storage.StorageName,
                             StorageDevices = source.StorageDevices.Where(sm => sm.StorageId == storage.Id)
-                            .ToDictionary(sm => source.Components.FirstOrDefault(c => c.Id == sm.DeviceId).DeviceName, sm => sm.Count)
+                            .ToDictionary(sm => source.Devices.FirstOrDefault(c => c.Id == sm.DeviceId).DeviceName, sm => sm.Count)
                         });
                         break;
                     }
@@ -98,12 +100,11 @@ namespace SecuritySystemListImplement.Implements
                     Id = storage.Id,
                     StorageName = storage.StorageName,
                     StorageDevices = source.StorageDevices.Where(sm => sm.StorageId == storage.Id)
-                    .ToDictionary(sm => source.Components.FirstOrDefault(c => c.Id == sm.DeviceId).DeviceName, sm => sm.Count)
+                           .ToDictionary(sm => source.Devices.FirstOrDefault(c => c.Id == sm.StorageId).DeviceName, sm => sm.Count)
                 });
             }
             return result;
         }
-
         public void AddDeviceToStorage(AddDeviceInStorageBindingModel model)
         {
             if (source.StorageDevices.Count == 0)
@@ -118,8 +119,8 @@ namespace SecuritySystemListImplement.Implements
             }
             else
             {
-                var ingredient = source.StorageDevices.FirstOrDefault(sm => sm.StorageId == model.StorageId && sm.DeviceId == model.DeviceId);
-                if (ingredient == null)
+                var device = source.StorageDevices.FirstOrDefault(sm => sm.StorageId == model.StorageId && sm.DeviceId == model.DeviceId);
+                if (device == null)
                 {
                     source.StorageDevices.Add(new StorageDevices()
                     {
@@ -130,9 +131,13 @@ namespace SecuritySystemListImplement.Implements
                     });
                 }
                 else
-                    ingredient.Count += model.Count;
-
+                    device.Count += model.Count;
             }
+        }
+
+        bool IStorageLogic.RemoveDevices(OrderViewModel order)
+        {
+            throw new NotImplementedException();
         }
     }
 }

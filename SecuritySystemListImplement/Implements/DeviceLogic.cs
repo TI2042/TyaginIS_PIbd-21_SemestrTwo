@@ -1,4 +1,6 @@
-﻿using SecuritySystemListImplement.Models;
+﻿
+using SecuritySystemListImplement;
+using SecuritySystemListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
@@ -21,7 +23,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 Id = 1
             };
-            foreach (var component in source.Components)
+            foreach (var component in source.Devices)
             {
                 if (component.DeviceName == model.DeviceName && component.Id !=
                model.Id)
@@ -47,16 +49,16 @@ namespace SecuritySystemListImplement.Implements
             }
             else
             {
-                source.Components.Add(CreateModel(model, tempComponent));
+                source.Devices.Add(CreateModel(model, tempComponent));
             }
         }
         public void Delete(DeviceBindingModel model)
         {
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Devices.Count; ++i)
             {
-                if (source.Components[i].Id == model.Id.Value)
+                if (source.Devices[i].Id == model.Id.Value)
                 {
-                    source.Components.RemoveAt(i);
+                    source.Devices.RemoveAt(i);
                     return;
                 }
             }
@@ -65,7 +67,7 @@ namespace SecuritySystemListImplement.Implements
         public List<DeviceViewModel> Read(DeviceBindingModel model)
         {
             List<DeviceViewModel> result = new List<DeviceViewModel>();
-            foreach (var component in source.Components)
+            foreach (var component in source.Devices)
             {
                 if (model != null)
                 {

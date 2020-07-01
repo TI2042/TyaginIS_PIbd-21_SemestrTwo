@@ -8,9 +8,9 @@ namespace SecuritySystemBusinessLogic.ViewModels
     public class EquipmentDeviceViewModel
     {
         public int Id { get; set; }
-        public int EqupmentId { get; set; }
+        public int EquipmentId { get; set; }
         public int DeviceId { get; set; }
-        [DisplayName("Умтройство")]
+        [DisplayName("Уcтройство")]
         public string DeviceName { get; set; }
         [DisplayName("Количество")]
         public int Count { get; set; }

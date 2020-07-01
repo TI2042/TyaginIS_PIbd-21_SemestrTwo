@@ -1,5 +1,6 @@
 ﻿using SecuritySystemBusinessLogic.BindingModels;
 using SecuritySystemBusinessLogic.ViewModels;
+using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace SecuritySystemBusinessLogic.Interfaces
         void CreateOrUpdate(StorageBindingModel model);
         void Delete(StorageBindingModel model);
         void AddDeviceToStorage(AddDeviceInStorageBindingModel model);
+        bool RemoveDevices(OrderViewModel order);
     }
 }
