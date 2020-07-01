@@ -1,4 +1,4 @@
-﻿
+
 using SecuritySystemListImplement.Models;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Enums;
