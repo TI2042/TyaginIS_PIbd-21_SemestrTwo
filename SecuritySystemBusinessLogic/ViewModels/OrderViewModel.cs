@@ -13,7 +13,7 @@ namespace SecuritySystemsBusinessLogic.ViewModels
     public class OrderViewModel : BaseViewModel
     {
         [DataMember]
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
         [DataMember]
         [Column(title: "ФИО Клиента", width: 150)]
         public string ClientFIO { set; get; }

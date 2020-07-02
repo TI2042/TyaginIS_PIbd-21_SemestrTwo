@@ -8,7 +8,7 @@ namespace SecuritySystemsBusinessLogic.BindingModels
     public class OrderBindingModel
     {
         public int? Id { get; set; }
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
         public string ClientFIO { set; get; }
         public int EquipmentId { get; set; }
         public int Count { get; set; }
