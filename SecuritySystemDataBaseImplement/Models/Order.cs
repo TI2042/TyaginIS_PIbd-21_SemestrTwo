@@ -17,6 +17,11 @@ namespace SecuritySystemDataBaseImplement.Models
         public OrderStatus Status { get; set; }
         [Required]
         public DateTime DateCreate { get; set; }
+        [Required]
+        public int? ClientId { set; get; }
+        [Required]
+        public string ClientFIO { set; get; }
+        public int? ImplementerId { set; get; }
         public DateTime? DateImplement { get; set; }
         [Required]
         public int ClientId { set; get; }
