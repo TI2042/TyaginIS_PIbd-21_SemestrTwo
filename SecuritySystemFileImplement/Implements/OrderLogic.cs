@@ -79,8 +79,6 @@ namespace SecuritySystemFileImplement.Implements
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
                 Status = rec.Status,
-                ClientFIO = rec.ClientFIO,
-                ClientId = rec.ClientId,
                 Sum = rec.Sum
             }).ToList();
         }
