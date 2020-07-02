@@ -13,7 +13,7 @@ namespace SecuritySystemsBusinessLogic.ViewModels
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
         [DataMember]
         public string ClientFIO { set; get; }
         [DataMember]
