@@ -36,17 +36,19 @@
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 71);
+            this.dataGridView.Location = new System.Drawing.Point(9, 58);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(817, 401);
+            this.dataGridView.Size = new System.Drawing.Size(613, 326);
             this.dataGridView.TabIndex = 0;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(13, 13);
+            this.buttonSave.Location = new System.Drawing.Point(10, 11);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(165, 38);
+            this.buttonSave.Size = new System.Drawing.Size(124, 31);
             this.buttonSave.TabIndex = 1;
             this.buttonSave.Text = "Сохранить в Excel";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -54,13 +56,14 @@
             // 
             // FormReportEquipmentDevices
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 484);
+            this.ClientSize = new System.Drawing.Size(631, 393);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.dataGridView);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormReportEquipmentDevices";
-            this.Text = "FormReportEquipmentDevices";
+            this.Text = "Отчет Exel";
             this.Load += new System.EventHandler(this.FormReportEquipmentDevices_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
