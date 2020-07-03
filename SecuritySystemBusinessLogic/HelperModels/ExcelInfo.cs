@@ -1,4 +1,5 @@
 ﻿using SecuritySystemBusinessLogic.ViewModels;
+using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace SecuritySystemBusinessLogic.HelperModels
         public string FileName { get; set; }
 
         public string Title { get; set; }
-
-        public List<IGrouping<string, ReportOrdersViewModel>> Orders { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
+        public List<IGrouping<DateTime, OrderViewModel>> Orders { get; set; }
     }
 }
