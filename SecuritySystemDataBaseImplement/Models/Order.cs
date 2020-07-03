@@ -11,6 +11,10 @@ namespace SecuritySystemDataBaseImplement.Models
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         [Required]
+        public int ClientId { set; get; }
+        [Required]
+        public string ClientFIO { set; get; }
+        [Required]
         public int Count { get; set; }
         [Required]
         public decimal Sum { get; set; }
@@ -23,12 +27,7 @@ namespace SecuritySystemDataBaseImplement.Models
         public string ClientFIO { set; get; }
         public int? ImplementerId { set; get; }
         public DateTime? DateImplement { get; set; }
-        [Required]
-        public int ClientId { set; get; }
-        [Required]
-        public string ClientFIO { set; get; }
-        public int? ImplementerId { set; get; }
-        public string ImplementerFIO { set; get; }
+        public virtual Client Client { set; get; }
         public virtual Equipment Equipment { get; set; }
         public virtual Implementer Implementer { set; get; }
     }

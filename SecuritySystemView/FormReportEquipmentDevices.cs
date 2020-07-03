@@ -23,47 +23,15 @@ namespace SecuritySystemView
         {
             InitializeComponent();
             this.logic = logic;
-            dataGridView.Columns.Add("Дата", "Дата");
-            dataGridView.Columns.Add("Заказ", "Заказ");
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns.Add("Сумма заказа", "Сумма заказа");
         }
-        private void FormReportEquipmentDevices_Load(object sender, EventArgs e)
+        private void buttonSaveToExcel_Click(object sender, EventArgs e)
         {
-            try
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
             {
-                var dict = logic.GetOrders();
-                if (dict != null)
-                {
-                    Dictionary<string, List<ReportOrdersViewModel>> dictOrders = new Dictionary<string, List<ReportOrdersViewModel>>();
-                    dataGridView.Rows.Clear();
-                    foreach (var elem in dict)
-                    {
-                        if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
-                            dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
-                        else
-                            dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
-                    }
-                    foreach (var order in dictOrders)
-                    {
-                        dataGridView.Rows.Add(order.Key, "", "");
-                        decimal totalPrice = 0;
-                        foreach (var equipment in order.Value)
-                        {
-                            dataGridView.Rows.Add("", equipment.EquipmentName, equipment.Sum);
-                            totalPrice += equipment.Sum;
-                        }
-                        dataGridView.Rows.Add("Всего", "", totalPrice);
-                    }
-                }
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void ButtonSaveToExcel_Click(object sender, EventArgs e)
-        {
             using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -72,15 +40,57 @@ namespace SecuritySystemView
                     {
                         logic.SaveProductComponentToExcelFile(new ReportBindingModel
                         {
+                            DateFrom = dateTimePickerFrom.Value.Date,
+                            DateTo = dateTimePickerTo.Value.Date,
                             FileName = dialog.FileName
                         });
-                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                dataGridView.Rows.Clear();
+                var query = logic.GetOrders(new ReportBindingModel
+                {
+                    DateFrom = dateTimePickerFrom.Value.Date,
+                    DateTo = dateTimePickerTo.Value.Date
+                });
+                foreach (IGrouping<DateTime, ReportOrdersViewModel> group in query)
+                {
+                    dataGridView.Rows.Add(new object[] { group.Key.ToShortDateString(), "", ""
+});
+                    decimal total = 0;
+                    foreach (var model in group)
+                    {
+                        dataGridView.Rows.Add(new object[] { "", model.EquipmentName,
+                            model.Sum });
+                        total += model.Sum;
+                    }
+                    dataGridView.Rows.Add(new object[] { "Итого", "", total });
+                    dataGridView.Rows.Add(new object[] { });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
         }
     }
