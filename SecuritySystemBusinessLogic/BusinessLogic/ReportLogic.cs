@@ -22,32 +22,6 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             this.orderLogic = orderLLogic;
         }
 
-        // Получение списка компонент с указанием, в каких изделиях используются
-        public List<ReportDeviceEquipmentViewModel> GetProductComponent()
-        {
-            var components = deviceLogic.Read(null);
-            var products = equipmentLogic.Read(null);
-            var list = new List<ReportDeviceEquipmentViewModel>();
-            foreach (var component in components)
-            {
-                var record = new ReportDeviceEquipmentViewModel
-                {
-                    DeviceName = component.DeviceName,
-                    Equipments = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var product in products)
-                {
-                    if (product.EquipmentDevices.ContainsKey(component.Id))
-                    {
-                        record.Equipments.Add(new Tuple<string, int>(product.EquipmentName, product.EquipmentDevices[component.Id].Item2));
-                        record.TotalCount += product.EquipmentDevices[component.Id].Item2;
-                    }
-                }
-                list.Add(record);
-            }
-            return list;
-        }
 
         public List<ReportEquipmentDeviceViewModel> GetEquipmentDevices()
         {
@@ -68,7 +42,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
         }
 
         // Получение списка заказов за определенный период
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new OrderBindingModel
             {
@@ -83,6 +57,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 Sum = x.Sum,
                 Status = x.Status
             })
+            .GroupBy(x => x.DateCreate.Date)
            .ToList();
         }
 
