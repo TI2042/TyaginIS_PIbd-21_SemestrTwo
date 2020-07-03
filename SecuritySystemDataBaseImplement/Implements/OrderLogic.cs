@@ -83,8 +83,12 @@ namespace SecuritySystemDataBaseImplement.Implements
         {
             using (var context = new SecuritySystemDataBase())
             {
-                return context.Orders.Where(rec => model == null || rec.Id == model.Id)
-                .ToList()
+                return context.Orders.Include(rec => rec.Equipment)
+            .Where(
+                    rec => model == null
+                    || (rec.Id == model.Id && model.Id.HasValue)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                    || model.ClientId == rec.ClientId)
                 .Select(rec => new OrderViewModel()
                 {
                     Id = rec.Id,

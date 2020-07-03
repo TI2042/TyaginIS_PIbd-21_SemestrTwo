@@ -10,7 +10,10 @@ namespace SecuritySystemDataBaseImplement.Models
     {
         public int Id { get; set; }
         public int EquipmentId { get; set; }
-
+        [Required]
+        public int ClientId { set; get; }
+        [Required]
+        public string ClientFIO { set; get; }
         [Required]
         public int Count { get; set; }
         [Required]
@@ -20,6 +23,7 @@ namespace SecuritySystemDataBaseImplement.Models
         [Required]
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
+        public virtual Client Client { set; get; }
         public virtual Equipment Equipment { get; set; }
     }
 }

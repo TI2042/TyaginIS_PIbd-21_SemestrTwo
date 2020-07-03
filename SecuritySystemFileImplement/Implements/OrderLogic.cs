@@ -34,12 +34,9 @@ namespace SecuritySystemFileImplement.Implements
                 source.Orders.Add(order);
             }
             order.EquipmentId = model.EquipmentId;
-            order.ClientFIO = model.ClientFIO;
             order.ClientId = (int)model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
-            order.ImplementerFIO = model.ImplementerFIO;
-            order.ImplementerId = model.ImplementerId;
             order.DateImplement = model.DateImplement;
             order.Status = model.Status;
             order.Sum = model.Sum;
@@ -61,21 +58,15 @@ namespace SecuritySystemFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null 
-            || model.Id.HasValue && rec.Id == model.Id && rec.ClientId == model.ClientId 
-            ||(model.DateTo.HasValue && model.DateFrom.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) 
-            || (model.ClientId.HasValue && rec.ClientId == model.ClientId)
-            ||(model.FreeOrder.HasValue && model.FreeOrder.Value && !(rec.ImplementerFIO != null)) 
-            ||(model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
+            .Where(rec => model == null
+             || rec.Id == model.Id
+                || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 EquipmentId = rec.EquipmentId,
                 EquipmentName = source.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
-                ClientFIO = rec.ClientFIO,
-                ClientId = rec.ClientId,
-                ImplementorId = rec.ImplementerId,
-                ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
+                ClientId = rec.ClientId,            
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
