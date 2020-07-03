@@ -41,7 +41,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (tempOrder == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Заказ не найден");
                 }
                 CreateModel(model, tempOrder);
             }
@@ -61,7 +61,7 @@ namespace SecuritySystemListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Заказ не найден");
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -98,6 +98,37 @@ namespace SecuritySystemListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            Equipment Equipment = null;
+            foreach (Equipment b in source.Equipments)
+            {
+                if (b.Id == model.EquipmentId)
+                {
+                    Equipment = b;
+                    break;
+                }
+            }
+            Client client = null;
+            foreach (Client c in source.Clients)
+            {
+                if (c.Id == model.ClientId)
+                {
+                    client = c;
+                    break;
+                }
+            }
+            Implementer implementer = null;
+            foreach (Implementer i in source.Implementers)
+            {
+                if (i.Id == model.ImplementerId)
+                {
+                    implementer = i;
+                    break;
+                }
+            }
+            if (Equipment == null || client == null || model.ImplementerId.HasValue && implementer == null)
+            {
+                throw new Exception("Элемент не найден");
+            }
             order.Count = model.Count;
             order.ClientId = model.ClientId.Value;
             order.ClientFIO = model.ClientFIO;
@@ -115,19 +146,51 @@ namespace SecuritySystemListImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            var equipmentName = source.Equipments.FirstOrDefault((n) => n.Id == order.EquipmentId).EquipmentName;
+            Equipment Equipment = null;
+            foreach (Equipment b in source.Equipments)
+            {
+                if (b.Id == order.EquipmentId)
+                {
+                    Equipment = b;
+                    break;
+                }
+            }
+            Client client = null;
+            foreach (Client c in source.Clients)
+            {
+                if (c.Id == order.ClientId)
+                {
+                    client = c;
+                    break;
+                }
+            }
+            Implementer implementer = null;
+            foreach (Implementer i in source.Implementers)
+            {
+                if (i.Id == order.ImplementerId)
+                {
+                    implementer = i;
+                    break;
+                }
+            }
+            if (Equipment == null || client == null || order.ImplementerId.HasValue && implementer == null)
+            {
+                throw new Exception("Элемент не найден");
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
-                Count = order.Count,
-                ClientId = order.ClientId,
-                ClientFIO = order.ClientFIO,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-                EquipmentName = equipmentName,
                 EquipmentId = order.EquipmentId,
-                Status = order.Status,
+                EquipmentName = Equipment.EquipmentName,
+                ClientId = order.ClientId,
+                ClientFIO = client.ClientFIO,
+                ImplementorId = order.ImplementerId,
+                ImplementerFIO = implementer.ImplementerFIO,
+                Count = order.Count,
                 Sum = order.Sum,
+                Status = order.Status,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement
             };
         }
     }

@@ -20,14 +20,14 @@ namespace SecuritySystemFileImplement.Implements
             Equipment element = source.Equipments.FirstOrDefault(rec => rec.EquipmentName == model.EquipmentName && rec.Id != model.Id);
             if (element != null)
             {
-                throw new Exception("Уже есть изделие с таким названием");
+                throw new Exception("Уже есть комплектация с таким названием");
             }
             if (model.Id.HasValue)
             {
                 element = source.Equipments.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("комплектация не найден");
                 }
             }
             else
@@ -38,16 +38,13 @@ namespace SecuritySystemFileImplement.Implements
             }
             element.EquipmentName = model.EquipmentName;
             element.Price = model.Price;
-            // удалили те, которых нет в модели
             source.EquipmentDevices.RemoveAll(rec => rec.EquipmentId == model.Id && !model.EquipmentDevices.ContainsKey(rec.DeviceId));
-            // обновили количество у существующих записей
             var updateComponents = source.EquipmentDevices.Where(rec => rec.EquipmentId == model.Id && model.EquipmentDevices.ContainsKey(rec.DeviceId));
             foreach (var updateComponent in updateComponents)
             {
                 updateComponent.Count = model.EquipmentDevices[updateComponent.DeviceId].Item2;
                 model.EquipmentDevices.Remove(updateComponent.DeviceId);
             }
-            // добавили новые
             int maxPCId = source.EquipmentDevices.Count > 0 ? source.EquipmentDevices.Max(rec => rec.Id) : 0;
             foreach (var pc in model.EquipmentDevices)
             {
@@ -62,7 +59,6 @@ namespace SecuritySystemFileImplement.Implements
         }
         public void Delete(EquipmentBindingModel model)
         {
-            // удаяем записи по компонентам при удалении изделия
             source.EquipmentDevices.RemoveAll(rec => rec.EquipmentId == model.Id);
             Equipment element = source.Equipments.FirstOrDefault(rec => rec.Id == model.Id);
             if (element != null)
@@ -71,7 +67,7 @@ namespace SecuritySystemFileImplement.Implements
             }
             else
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("комплектация не найдена");
             }
         }
         public List<EquipmentViewModel> Read(EquipmentBindingModel model)

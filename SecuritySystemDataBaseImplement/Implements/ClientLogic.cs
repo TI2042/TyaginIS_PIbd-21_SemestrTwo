@@ -15,13 +15,17 @@ namespace SecuritySystemDataBaseImplement.Implements
         {
             using (var context = new SecuritySystemDataBase())
             {
-                Client client;
+                Client client = context.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
+                if (client != null)
+                {
+                    throw new Exception("Уже есть клиент с таким логином");
+                }
                 if (model.Id.HasValue)
                 {
                     client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
                     if (client == null)
                     {
-                        throw new Exception("Элемент не найден");
+                        throw new Exception("Клиент не найден");
                     }
                 }
                 else
@@ -48,7 +52,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                 }
                 else
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Клиент не найден");
                 }
             }
         }
@@ -58,8 +62,9 @@ namespace SecuritySystemDataBaseImplement.Implements
             using (var context = new SecuritySystemDataBase())
             {
                 return context.Clients
-               .Where(rec => model == null || rec.Id == model.Id ||
-                rec.Login == model.Login && rec.Password == model.Password)
+               .Where(rec => model == null 
+               || rec.Id == model.Id 
+               || rec.Login == model.Login && rec.Password == model.Password)
                 .Select(rec => new ClientViewModel
                 {
                     Id = rec.Id,

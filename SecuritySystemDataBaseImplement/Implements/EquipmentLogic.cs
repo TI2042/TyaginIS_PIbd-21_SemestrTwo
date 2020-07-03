@@ -23,7 +23,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                         Equipment element = context.Equipments.FirstOrDefault(rec => rec.EquipmentName == model.EquipmentName && rec.Id != model.Id);
                         if (element != null)
                         {
-                            throw new Exception("Уже есть изделие с таким названием");
+                            throw new Exception("Уже есть комплектация с таким названием");
                         }
                         if (model.Id.HasValue)
                         {
@@ -44,10 +44,8 @@ namespace SecuritySystemDataBaseImplement.Implements
                         if (model.Id.HasValue)
                         {
                             var productComponents = context.EquipmentDevices.Where(rec => rec.EquipmentId == model.Id.Value).ToList();
-                            // удалили те, которых нет в модели
                             context.EquipmentDevices.RemoveRange(productComponents.Where(rec => !model.EquipmentDevices.ContainsKey(rec.DeviceId)).ToList());
                             context.SaveChanges();
-                            // обновили количество у существующих записей
                             foreach (var updateComponent in productComponents)
                             {
                                 updateComponent.Count = model.EquipmentDevices[updateComponent.DeviceId].Item2;
@@ -55,7 +53,6 @@ namespace SecuritySystemDataBaseImplement.Implements
                             }
                             context.SaveChanges();
                         }
-                        // добавили новые
                         foreach (var pc in model.EquipmentDevices)
                         {
                             context.EquipmentDevices.Add(new EquipmentDevice
@@ -85,7 +82,6 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     try
                     {
-                        // удаяем записи по компонентам при удалении изделия
                         context.EquipmentDevices.RemoveRange(context.EquipmentDevices.Where(rec => rec.EquipmentId == model.Id));
                         Equipment element = context.Equipments.FirstOrDefault(rec => rec.Id == model.Id);
                         if (element != null)
@@ -95,7 +91,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                         }
                         else
                         {
-                            throw new Exception("Элемент не найден");
+                            throw new Exception("Комплектация не найдена");
                         }
                         transaction.Commit();
                     }

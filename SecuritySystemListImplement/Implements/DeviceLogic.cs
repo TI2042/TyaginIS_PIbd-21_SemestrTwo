@@ -27,7 +27,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (device.DeviceName == model.DeviceName && device.Id != model.Id)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Уже есть устройство с таким названием");
                 }
                 if (!model.Id.HasValue && device.Id >= tempComponent.Id)
                 {
@@ -42,7 +42,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (tempComponent == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("устройство не найдено");
                 }
                 CreateModel(model, tempComponent);
             }
@@ -62,7 +62,7 @@ namespace SecuritySystemListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("устройство не найдено");
         }
 
         public List<DeviceViewModel> Read(DeviceBindingModel model)

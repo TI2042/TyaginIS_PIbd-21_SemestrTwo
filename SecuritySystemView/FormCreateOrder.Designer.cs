@@ -29,44 +29,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelEquip = new System.Windows.Forms.Label();
+            this.labelCount = new System.Windows.Forms.Label();
+            this.labelSum = new System.Windows.Forms.Label();
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.textBoxSum = new System.Windows.Forms.TextBox();
             this.comboBoxProduct = new System.Windows.Forms.ComboBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.comboBoxClients = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelClient = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 57);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Изделие";
+            this.labelEquip.AutoSize = true;
+            this.labelEquip.Location = new System.Drawing.Point(16, 57);
+            this.labelEquip.Name = "label1";
+            this.labelEquip.Size = new System.Drawing.Size(65, 17);
+            this.labelEquip.TabIndex = 0;
+            this.labelEquip.Text = "Изделие";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 92);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Количество";
+            this.labelCount.AutoSize = true;
+            this.labelCount.Location = new System.Drawing.Point(16, 92);
+            this.labelCount.Name = "label2";
+            this.labelCount.Size = new System.Drawing.Size(86, 17);
+            this.labelCount.TabIndex = 1;
+            this.labelCount.Text = "Количество";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 132);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 17);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Сумма";
+            this.labelSum.AutoSize = true;
+            this.labelSum.Location = new System.Drawing.Point(16, 132);
+            this.labelSum.Name = "label3";
+            this.labelSum.Size = new System.Drawing.Size(50, 17);
+            this.labelSum.TabIndex = 2;
+            this.labelSum.Text = "Сумма";
             // 
             // textBoxCount
             // 
@@ -124,28 +124,28 @@
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 17);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Клиент";
+            this.labelClient.AutoSize = true;
+            this.labelClient.Location = new System.Drawing.Point(16, 27);
+            this.labelClient.Name = "label4";
+            this.labelClient.Size = new System.Drawing.Size(56, 17);
+            this.labelClient.TabIndex = 9;
+            this.labelClient.Text = "Клиент";
             // 
             // FormCreateOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(352, 230);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelClient);
             this.Controls.Add(this.comboBoxClients);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxProduct);
             this.Controls.Add(this.textBoxSum);
             this.Controls.Add(this.textBoxCount);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelSum);
+            this.Controls.Add(this.labelCount);
+            this.Controls.Add(this.labelEquip);
             this.Name = "FormCreateOrder";
             this.Text = "Создание заказа";
             this.ResumeLayout(false);
@@ -155,15 +155,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelEquip;
+        private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.Label labelSum;
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.ComboBox comboBoxProduct;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.ComboBox comboBoxClients;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelClient;
     }
 }

@@ -22,14 +22,14 @@ namespace SecuritySystemFileImplement.Implements
             Device element = source.Devices.FirstOrDefault(rec => rec.DeviceName == model.DeviceName && rec.Id != model.Id);
             if (element != null)
             {
-                throw new Exception("Уже есть компонент с таким названием");
+                throw new Exception("Уже есть устройство с таким названием");
             }
             if (model.Id.HasValue)
             {
                 element = source.Devices.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("устройство не найдено");
                 }
             }
             else
@@ -49,7 +49,7 @@ namespace SecuritySystemFileImplement.Implements
             }
             else
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("устройство не найдено");
             }
         }
         public List<DeviceViewModel> Read(DeviceBindingModel model)

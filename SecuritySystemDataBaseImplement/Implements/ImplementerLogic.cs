@@ -26,7 +26,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                     implementer = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
                     if (implementer == null)
                     {
-                        throw new Exception("Элемент не найден");
+                        throw new Exception("рабочий не найден");
                     }
                 }
                 else
@@ -53,7 +53,7 @@ namespace SecuritySystemDataBaseImplement.Implements
                 }
                 else
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("рабочий не найден");
                 }
             }
         }

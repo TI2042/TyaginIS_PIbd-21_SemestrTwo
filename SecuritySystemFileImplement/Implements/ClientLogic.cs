@@ -20,24 +20,28 @@ namespace SecuritySystemFileImplement.Implements
 
         public void CreateOrUpdate(ClientBindingModel model)
         {
-            Client element;
+            Client client = source.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
+            if (client != null)
+            {
+                throw new Exception("Уже есть клиент с таким логином");
+            }
             if (model.Id.HasValue)
             {
-                element = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
+                client = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+                if (client == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("клиент не найден");
                 }
             }
             else
             {
                 int maxId = source.Clients.Count > 0 ? source.Clients.Max(rec => rec.Id) : 0;
-                element = new Client { Id = maxId + 1 };
-                source.Clients.Add(element);
+                client = new Client { Id = maxId + 1 };
+                source.Clients.Add(client);
             }
-            element.ClientFIO = model.ClientFIO;
-            element.Login = model.Login;
-            element.Password = model.Password;
+            client.ClientFIO = model.ClientFIO;
+            client.Login = model.Login;
+            client.Password = model.Password;
         }
 
         public void Delete(ClientBindingModel model)
@@ -49,15 +53,18 @@ namespace SecuritySystemFileImplement.Implements
             }
             else
             {
-                throw new Exception("Клиент не найден");
+                throw new Exception("клиент не найден");
             }
         }
 
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             return source.Clients
-            .Where(rec => model == null || rec.Id == model.Id)
-            .Select(rec => new ClientViewModel
+            .Where(
+            rec => model == null
+           || (rec.Id == model.Id)
+           || (rec.Login == model.Login && rec.Password == model.Password))
+           .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,
                 ClientFIO = rec.ClientFIO,

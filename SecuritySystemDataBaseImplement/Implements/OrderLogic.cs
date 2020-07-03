@@ -87,10 +87,12 @@ namespace SecuritySystemDataBaseImplement.Implements
         {
             using (var context = new SecuritySystemDataBase())
             {
-                return context.Orders.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
-               && (rec.DateCreate <= model.DateTo) || (model.ClientId == rec.ClientId) ||
-               (model.FreeOrder.HasValue && model.FreeOrder.Value && !(rec.ImplementerFIO != null)) ||
-               (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
+                return context.Orders.Where(rec => model == null 
+                || rec.Id == model.Id 
+                || (rec.DateCreate >= model.DateFrom) && (rec.DateCreate <= model.DateTo)
+                || (model.ClientId == rec.ClientId)
+                || (model.FreeOrder.HasValue && model.FreeOrder.Value && !(rec.ImplementerFIO != null)) 
+                || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
                .Include(ord => ord.Equipment)
                .Select(rec => new OrderViewModel()
                {

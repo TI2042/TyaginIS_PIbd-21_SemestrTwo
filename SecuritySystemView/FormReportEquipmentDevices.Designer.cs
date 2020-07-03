@@ -36,11 +36,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridViewMaterialToDress
+            // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(0, 32);
-            this.dataGridView.Name = "dataGridViewMaterialToDress";
+            this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(536, 418);
             this.dataGridView.TabIndex = 0;
             // 
@@ -78,7 +78,7 @@
             this.buttonMake.UseVisualStyleBackColor = true;
             this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
             // 
-            // FormReportDressOrders
+            // FormReportEquipmentDevices
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -88,8 +88,8 @@
             this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.buttonSaveToExcel);
             this.Controls.Add(this.dataGridView);
-            this.Name = "FormReportDressOrders";
-            this.Text = "Заказы платьев";
+            this.Name = "FormReportEquipmentDevices";
+            this.Text = "Заказы ";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

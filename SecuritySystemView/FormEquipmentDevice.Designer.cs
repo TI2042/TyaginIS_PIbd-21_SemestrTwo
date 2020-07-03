@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelCom = new System.Windows.Forms.Label();
+            this.labelCount = new System.Windows.Forms.Label();
             this.comboBoxComponent = new System.Windows.Forms.ComboBox();
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -38,21 +38,21 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Компонент";
+            this.labelCom.AutoSize = true;
+            this.labelCom.Location = new System.Drawing.Point(5, 11);
+            this.labelCom.Name = "label1";
+            this.labelCom.Size = new System.Drawing.Size(81, 17);
+            this.labelCom.TabIndex = 0;
+            this.labelCom.Text = "Компонент";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Количество";
+            this.labelCount.AutoSize = true;
+            this.labelCount.Location = new System.Drawing.Point(5, 51);
+            this.labelCount.Name = "label2";
+            this.labelCount.Size = new System.Drawing.Size(86, 17);
+            this.labelCount.TabIndex = 1;
+            this.labelCount.Text = "Количество";
             // 
             // comboBoxComponent
             // 
@@ -98,8 +98,8 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.comboBoxComponent);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelCount);
+            this.Controls.Add(this.labelCom);
             this.Name = "FormEquipmentDevice";
             this.Text = "Компонент для комплекта";
             this.ResumeLayout(false);
@@ -109,8 +109,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelCom;
+        private System.Windows.Forms.Label labelCount;
         private System.Windows.Forms.ComboBox comboBoxComponent;
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.Button buttonSave;

@@ -24,9 +24,9 @@ namespace SecuritySystemListImplement.Implements
             };
             foreach (var client in source.Clients)
             {
-                if (client.ClientFIO == model.ClientFIO && client.Id != model.Id)
+                if (!model.Id.HasValue && model.Login == client.Login)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Уже есть клиент с таким названием");
                 }
                 if (!model.Id.HasValue && client.Id >= tempComponent.Id)
                 {
@@ -41,7 +41,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (tempComponent == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("клиент не найден");
                 }
                 CreateModel(model, tempComponent);
             }
@@ -61,7 +61,7 @@ namespace SecuritySystemListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("клиент не найден");
         }
 
         public List<ClientViewModel> Read(ClientBindingModel model)

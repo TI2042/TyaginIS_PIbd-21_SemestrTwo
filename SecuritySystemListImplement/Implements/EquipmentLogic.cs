@@ -23,7 +23,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (product.EquipmentName == model.EquipmentName && product.Id != model.Id)
                 {
-                    throw new Exception("Уже есть изделие с таким названием");
+                    throw new Exception("Уже есть комплектация с таким названием");
                 }
                 if (!model.Id.HasValue && product.Id >= tempProduct.Id)
                 {
@@ -38,7 +38,7 @@ namespace SecuritySystemListImplement.Implements
             {
                 if (tempProduct == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("комплектация не найдена");
                 }
                 CreateModel(model, tempProduct);
             }
@@ -50,7 +50,6 @@ namespace SecuritySystemListImplement.Implements
 
         public void Delete(EquipmentBindingModel model)
         {
-            // удаляем записи по компонентам при удалении изделия
             for (int i = 0; i < source.EquipmentDevices.Count; ++i)
             {
                 if (source.EquipmentDevices[i].EquipmentId == model.Id)
@@ -66,14 +65,13 @@ namespace SecuritySystemListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("комплектация не найдена");
         }
 
         private Equipment CreateModel(EquipmentBindingModel model, Equipment product)
         {
             product.EquipmentName = model.EquipmentName;
             product.Price = model.Price;
-            //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxPCId = 0;
             for (int i = 0; i < source.EquipmentDevices.Count; ++i)
             {
@@ -83,15 +81,11 @@ namespace SecuritySystemListImplement.Implements
                 }
                 if (source.EquipmentDevices[i].EquipmentId == product.Id)
                 {
-                    // если в модели пришла запись компонента с таким id
                     if
                     (model.EquipmentDevices.ContainsKey(source.EquipmentDevices[i].DeviceId))
                     {
-                        // обновляем количество
                         source.EquipmentDevices[i].Count =
                         model.EquipmentDevices[source.EquipmentDevices[i].DeviceId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не
-                        //просмотренные
                         model.EquipmentDevices.Remove(source.EquipmentDevices[i].DeviceId);
                     }
                     else
@@ -100,7 +94,6 @@ namespace SecuritySystemListImplement.Implements
                     }
                 }
             }
-            // новые записи
             foreach (var pc in model.EquipmentDevices)
             {
                 source.EquipmentDevices.Add(new EquipmentDevice
@@ -135,8 +128,6 @@ namespace SecuritySystemListImplement.Implements
 
         private EquipmentViewModel CreateViewModel(Equipment product)
         {
-            // требуется дополнительно получить список компонентов для изделия с
-            // названиями и их количество
             Dictionary<int, (string, int)> equipmentDevices = new Dictionary<int, (string, int)>();
             foreach (var dm in source.EquipmentDevices)
             {
