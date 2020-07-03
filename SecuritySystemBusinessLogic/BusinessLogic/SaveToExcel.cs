@@ -12,19 +12,24 @@ using System.Text;
 
 namespace SecuritySystemBusinessLogic.BusinessLogic
 {
-    public static class SaveToExcel
+    static class SaveToExcel
     {
         public static void CreateDoc(ExcelInfo info)
         {
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook))
+            using (SpreadsheetDocument spreadsheetDocument =
+           SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook))
             {
                 // Создаем книгу (в ней хранятся листы)
                 WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
                 workbookpart.Workbook = new Workbook();
                 CreateStyles(workbookpart);
                 // Получаем/создаем хранилище текстов для книги
-                SharedStringTablePart shareStringPart = spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
-                ? spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First() : spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
+                SharedStringTablePart shareStringPart =
+               spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
+                ?
+               spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
+                :
+               spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
                 // Создаем SharedStringTable, если его нет
                 if (shareStringPart.SharedStringTable == null)
                 {
@@ -34,7 +39,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
                 worksheetPart.Worksheet = new Worksheet(new SheetData());
                 // Добавляем лист в книгу
-                Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                Sheets sheets =
+               spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
                 Sheet sheet = new Sheet()
                 {
                     Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
@@ -85,16 +91,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                     StyleIndex = 0U
                 });
                 uint rowIndex = 3;
-                //собираем информацию по заказам в словарь
-                Dictionary<string, List<ReportOrdersViewModel>> dictOrders = new Dictionary<string, List<ReportOrdersViewModel>>();
-                foreach (var elem in info.Orders)
-                {
-                    if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
-                        dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
-                    else
-                        dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
-                }
-                foreach (var order in dictOrders)
+                foreach (var order in info.Orders)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -102,12 +99,12 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = order.Key,
+                        Text = order.Key.ToShortDateString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    decimal totalPrice = 0;
-                    foreach (var equipment in order.Value)
+                    decimal total = 0;
+                    foreach (var equipment in order)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -127,25 +124,16 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             Text = equipment.Sum.ToString(),
                             StyleIndex = 0U
                         });
-                        totalPrice += equipment.Sum;
+                        total += equipment.Sum;
                         rowIndex++;
                     }
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
-                        ColumnName = "A",
-                        RowIndex = rowIndex,
-                        Text = "Всего",
-                        StyleIndex = 0U
-                    });
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        Worksheet = worksheetPart.Worksheet,
-                        ShareStringPart = shareStringPart,
                         ColumnName = "C",
                         RowIndex = rowIndex,
-                        Text = totalPrice.ToString(),
+                        Text = total.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
@@ -153,8 +141,6 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 workbookpart.Workbook.Save();
             }
         }
-
-        // Настройка стилей для файла
         private static void CreateStyles(WorkbookPart workbookpart)
         {
             WorkbookStylesPart sp = workbookpart.AddNewPart<WorkbookStylesPart>();
@@ -164,7 +150,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             fontUsual.Append(new FontSize() { Val = 12D });
             fontUsual.Append(new DocumentFormat.OpenXml.Office2010.Excel.Color()
             {
-                Theme = (UInt32Value)1U
+                Theme
+           = (UInt32Value)1U
             });
             fontUsual.Append(new FontName() { Val = "Times New Roman" });
             fontUsual.Append(new FontFamilyNumbering() { Val = 2 });
@@ -174,7 +161,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             fontTitle.Append(new FontSize() { Val = 14D });
             fontTitle.Append(new DocumentFormat.OpenXml.Office2010.Excel.Color()
             {
-                Theme = (UInt32Value)1U
+                Theme
+           = (UInt32Value)1U
             });
             fontTitle.Append(new FontName() { Val = "Times New Roman" });
             fontTitle.Append(new FontFamilyNumbering() { Val = 2 });
@@ -216,7 +204,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             });
             BottomBorder bottomBorder = new BottomBorder()
             {
-                Style = BorderStyleValues.Thin
+                Style =
+           BorderStyleValues.Thin
             };
             bottomBorder.Append(new DocumentFormat.OpenXml.Office2010.Excel.Color()
             {
@@ -231,48 +220,59 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             borders.Append(borderThin);
             CellStyleFormats cellStyleFormats = new CellStyleFormats()
             {
-                Count = (UInt32Value)1U
+                Count =
+           (UInt32Value)1U
             };
             CellFormat cellFormatStyle = new CellFormat()
             {
-                NumberFormatId = (UInt32Value)0U,
+                NumberFormatId =
+           (UInt32Value)0U,
                 FontId = (UInt32Value)0U,
                 FillId = (UInt32Value)0U,
-                BorderId = (UInt32Value)0U
+                BorderId =
+           (UInt32Value)0U
             };
             cellStyleFormats.Append(cellFormatStyle);
             CellFormats cellFormats = new CellFormats() { Count = (UInt32Value)3U };
             CellFormat cellFormatFont = new CellFormat()
             {
-                NumberFormatId = (UInt32Value)0U,
+                NumberFormatId =
+           (UInt32Value)0U,
                 FontId = (UInt32Value)0U,
                 FillId = (UInt32Value)0U,
-                BorderId = (UInt32Value)0U,
+                BorderId =
+           (UInt32Value)0U,
                 FormatId = (UInt32Value)0U,
                 ApplyFont = true
             };
             CellFormat cellFormatFontAndBorder = new CellFormat()
             {
-                NumberFormatId = (UInt32Value)0U,
+                NumberFormatId =
+           (UInt32Value)0U,
                 FontId = (UInt32Value)0U,
                 FillId = (UInt32Value)0U,
-                BorderId = (UInt32Value)1U,
+                BorderId =
+           (UInt32Value)1U,
                 FormatId = (UInt32Value)0U,
                 ApplyFont = true,
                 ApplyBorder = true
             };
             CellFormat cellFormatTitle = new CellFormat()
             {
-                NumberFormatId = (UInt32Value)0U,
+                NumberFormatId =
+           (UInt32Value)0U,
                 FontId = (UInt32Value)1U,
                 FillId = (UInt32Value)0U,
-                BorderId = (UInt32Value)0U,
+                BorderId =
+           (UInt32Value)0U,
                 FormatId = (UInt32Value)0U,
                 Alignment = new Alignment()
                 {
-                    Vertical = VerticalAlignmentValues.Center,
+                    Vertical =
+           VerticalAlignmentValues.Center,
                     WrapText = true,
-                    Horizontal = HorizontalAlignmentValues.Center
+                    Horizontal =
+           HorizontalAlignmentValues.Center
                 },
                 ApplyFont = true
             };
@@ -283,14 +283,15 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             cellStyles.Append(new CellStyle()
             {
                 Name = "Normal",
-                FormatId = (UInt32Value)0U,
+                FormatId =
+           (UInt32Value)0U,
                 BuiltinId = (UInt32Value)0U
             });
             DocumentFormat.OpenXml.Office2013.Excel.DifferentialFormats
-            differentialFormats = new DocumentFormat.OpenXml.Office2013.Excel.DifferentialFormats()
-            {
-                Count = (UInt32Value)0U
-            };
+           differentialFormats = new DocumentFormat.OpenXml.Office2013.Excel.DifferentialFormats()
+           {
+               Count = (UInt32Value)0U
+           };
 
             TableStyles tableStyles = new TableStyles()
             {
@@ -298,24 +299,31 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 DefaultTableStyle = "TableStyleMedium2",
                 DefaultPivotStyle = "PivotStyleLight16"
             };
-            StylesheetExtensionList stylesheetExtensionList = new StylesheetExtensionList();
+            StylesheetExtensionList stylesheetExtensionList = new
+           StylesheetExtensionList();
             StylesheetExtension stylesheetExtension1 = new StylesheetExtension()
             {
-                Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}"
+                Uri =
+           "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}"
             };
-            stylesheetExtension1.AddNamespaceDeclaration("x14", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
+            stylesheetExtension1.AddNamespaceDeclaration("x14",
+           "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
             stylesheetExtension1.Append(new SlicerStyles()
             {
-                DefaultSlicerStyle = "SlicerStyleLight1"
+                DefaultSlicerStyle =
+           "SlicerStyleLight1"
             });
             StylesheetExtension stylesheetExtension2 = new StylesheetExtension()
             {
-                Uri = "{9260A510-F301-46a8-8635-F512D64BE5F5}"
+                Uri =
+           "{9260A510-F301-46a8-8635-F512D64BE5F5}"
             };
-            stylesheetExtension2.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
+            stylesheetExtension2.AddNamespaceDeclaration("x15",
+           "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
             stylesheetExtension2.Append(new TimelineStyles()
             {
-                DefaultTimelineStyle = "TimeSlicerStyleLight1"
+                DefaultTimelineStyle =
+           "TimeSlicerStyleLight1"
             });
             stylesheetExtensionList.Append(stylesheetExtension1);
             stylesheetExtensionList.Append(stylesheetExtension2);
@@ -330,15 +338,16 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             sp.Stylesheet.Append(stylesheetExtensionList);
         }
 
-        // Добааляем новую ячейку в лист
         private static void InsertCellInWorksheet(ExcelCellParameters cellParameters)
         {
             SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();
             // Ищем строку, либо добавляем ее
             Row row;
-            if (sheetData.Elements<Row>().Where(r => r.RowIndex == cellParameters.RowIndex).Count() != 0)
+            if (sheetData.Elements<Row>().Where(r => r.RowIndex ==
+           cellParameters.RowIndex).Count() != 0)
             {
-                row = sheetData.Elements<Row>().Where(r => r.RowIndex == cellParameters.RowIndex).First();
+                row = sheetData.Elements<Row>().Where(r => r.RowIndex ==
+    cellParameters.RowIndex).First();
             }
             else
             {
@@ -347,9 +356,11 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             }
             // Ищем нужную ячейку
             Cell cell;
-            if (row.Elements<Cell>().Where(c => c.CellReference.Value == cellParameters.CellReference).Count() > 0)
+            if (row.Elements<Cell>().Where(c => c.CellReference.Value ==
+           cellParameters.CellReference).Count() > 0)
             {
-                cell = row.Elements<Cell>().Where(c => c.CellReference.Value == cellParameters.CellReference).First();
+                cell = row.Elements<Cell>().Where(c => c.CellReference.Value ==
+               cellParameters.CellReference).First();
             }
             else
             {
@@ -373,14 +384,16 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 cell = newCell;
             }
             // вставляем новый текст
-            cellParameters.ShareStringPart.SharedStringTable.AppendChild(new SharedStringItem(new Text(cellParameters.Text)));
+            cellParameters.ShareStringPart.SharedStringTable.AppendChild(new
+           SharedStringItem(new Text(cellParameters.Text)));
             cellParameters.ShareStringPart.SharedStringTable.Save();
-            cell.CellValue = new CellValue((cellParameters.ShareStringPart.SharedStringTable.Elements<SharedStringItem>().Count() - 1).ToString());
+            cell.CellValue = new
+           CellValue((cellParameters.ShareStringPart.SharedStringTable.Elements<SharedStringItem>().
+           Count() - 1).ToString());
             cell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
             cell.StyleIndex = cellParameters.StyleIndex;
         }
 
-        // Объединение ячеек
         private static void MergeCells(ExcelMergeParameters mergeParameters)
         {
             MergeCells mergeCells;

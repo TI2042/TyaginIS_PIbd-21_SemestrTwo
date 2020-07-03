@@ -262,6 +262,9 @@
     <EmbeddedResource Include="FormReportDeviceEquipment.resx">
       <DependentUpon>FormReportDeviceEquipment.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportEquipmentDevices.resx">
+      <DependentUpon>FormReportEquipmentDevices.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSystems.resx">
       <DependentUpon>FormSystems.cs</DependentUpon>
     </EmbeddedResource>
