@@ -62,7 +62,7 @@
             // 
             // Equipment
             // 
-            this.Equipment.HeaderText = "Комплектацияя";
+            this.Equipment.HeaderText = "Комплектация";
             this.Equipment.Name = "Equipment";
             // 
             // Sum
@@ -120,7 +120,7 @@
             this.Controls.Add(this.dataGridView);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormReportOrders";
-            this.Text = "Комплектации по устройствам";
+            this.Text = "Устройства по комплектации";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

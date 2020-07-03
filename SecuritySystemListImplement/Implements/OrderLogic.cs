@@ -67,7 +67,9 @@ namespace SecuritySystemListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (model != null)
+                if (model != null && order.Id == model.Id
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo && order.ClientId == model.ClientId
+                )
                 {
                     if (order.Id == model.Id)
                     {
@@ -89,6 +91,8 @@ namespace SecuritySystemListImplement.Implements
             order.EquipmentId = model.EquipmentId;
             order.Status = model.Status;
             order.Sum = model.Sum;
+            order.ClientId = model.ClientId;
+            order.ClientFIO = model.ClientFIO;
             return order;
         }
 
@@ -104,7 +108,9 @@ namespace SecuritySystemListImplement.Implements
                 EquipmentName = equipmentName,
                 EquipmentId = order.EquipmentId,
                 Status = order.Status,
-                Sum = order.Sum
+                Sum = order.Sum,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO
             };
         }
     }

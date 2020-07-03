@@ -40,8 +40,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             }
             return reports;
         }
-
-        public List<IGrouping<DateTime, OrderViewModel>> GetOrders(ReportBindingModel model)
+        // Получение списка заказов за определенный период
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
             var list = orderLogic
             .Read(new OrderBindingModel
@@ -49,10 +49,17 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
-            .GroupBy(rec => rec.DateCreate.Date)
-            .OrderBy(recG => recG.Key)
-            .ToList();
-
+            .Select(x => new ReportOrdersViewModel
+            {
+                DateCreate = x.DateCreate,
+                EquipmentName = x.EquipmentName,
+                Count = x.Count,
+                Sum = x.Sum,
+                Status = x.Status
+            })
+            .GroupBy(x => x.DateCreate.Date)
+           .ToList();
+        
             return list;
         }
 

@@ -21,14 +21,15 @@ namespace SecuritySystemDataBaseImplement.Implements
                 {
                     try
                     {
-                        Order order= context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
+                        Order order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
                         if (model.Id.HasValue)
                         {
                             if (order == null)
-                                throw new Exception("Элемент не найден");                           
+                                throw new Exception("Элемент не найден");                          
                         }
                         else
-                        {                           
+                        {
+                            order = new Order();
                             context.Orders.Add(order);
                         }
                         order.EquipmentId = model.EquipmentId;
@@ -82,24 +83,23 @@ namespace SecuritySystemDataBaseImplement.Implements
         {
             using (var context = new SecuritySystemDataBase())
             {
-                return context.Orders
-                    .Where(
-                        rec => model == null
-                        || (rec.Id == model.Id && model.Id.HasValue)
-                        || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                    )
-                    .Include(rec => rec.Equipment)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        EquipmentName = rec.Equipment.EquipmentName,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
-            .ToList();
+                return context.Orders.Include(rec => rec.Equipment)
+            .Where(
+                    rec => model == null
+                    || (rec.Id == model.Id && model.Id.HasValue)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                    || model.ClientId == rec.ClientId)
+                .Select(rec => new OrderViewModel()
+                {
+                    Id = rec.Id,
+                    EquipmentId = rec.EquipmentId,
+                    EquipmentName =  rec.Equipment.EquipmentName,
+                    Count = rec.Count,
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement,
+                    Status = rec.Status,
+                    Sum = rec.Sum
+                }).ToList();
             }
         }
     }
