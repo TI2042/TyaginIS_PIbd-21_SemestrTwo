@@ -23,44 +23,16 @@ namespace SecuritySystemView
         {
             InitializeComponent();
             this.logic = logic;
-            dataGridView.Columns.Add("Дата", "Дата");
-            dataGridView.Columns.Add("Заказ", "Заказ");
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns.Add("Сумма заказа", "Сумма заказа");
         }
-
-        private void ButtonSaveToExcel_Click(object sender, EventArgs e)
+        private void buttonSaveToExcel_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        if (dateTimePickerFrom.Value <= dateTimePickerTo.Value)
-                        {
-                            logic.SaveOrdersToExcelFile(new ReportBindingModel
-                            {
-                                FileName = dialog.FileName,
-                                DateFrom = dateTimePickerFrom.Value,
-                                DateTo = dateTimePickerTo.Value
-                            });
-                            MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                            MessageBox.Show("Начало периода не должно превышать его конец", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-        }
-
-        private void buttonMake_Click(object sender, EventArgs e)
-        {
-            try
+            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
             {
                 if (dateTimePickerFrom.Value <= dateTimePickerTo.Value)
                 {
@@ -88,6 +60,44 @@ namespace SecuritySystemView
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                dataGridView.Rows.Clear();
+                var query = logic.GetOrders(new ReportBindingModel
+                {
+                    DateFrom = dateTimePickerFrom.Value.Date,
+                    DateTo = dateTimePickerTo.Value.Date
+                });
+                foreach (IGrouping<DateTime, ReportOrdersViewModel> group in query)
+                {
+                    dataGridView.Rows.Add(new object[] { group.Key.ToShortDateString(), "", ""
+});
+                    decimal total = 0;
+                    foreach (var model in group)
+                    {
+                        dataGridView.Rows.Add(new object[] { "", model.EquipmentName,
+                            model.Sum });
+                        total += model.Sum;
+                    }
+                    dataGridView.Rows.Add(new object[] { "Итого", "", total });
+                    dataGridView.Rows.Add(new object[] { });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
         }
     }

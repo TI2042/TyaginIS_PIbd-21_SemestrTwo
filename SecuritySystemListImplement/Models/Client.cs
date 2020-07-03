@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +14,5 @@ namespace SecuritySystemListImplement.Models
         public string Login { set; get; }
         [Required]
         public string Password { set; get; }
-        [ForeignKey("ClientId")]
-        public virtual List<Order> Orders { set; get; }
     }
 }

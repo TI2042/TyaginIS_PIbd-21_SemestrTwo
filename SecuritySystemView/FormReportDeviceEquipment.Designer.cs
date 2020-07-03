@@ -83,6 +83,7 @@
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormReportDeviceEquipment";
             this.Text = "Отчет PDF";
+            this.Load += new System.EventHandler(this.FormReportDeviceEquipment_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportDeviceEquipmentViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 

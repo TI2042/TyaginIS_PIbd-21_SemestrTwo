@@ -3,6 +3,7 @@ using SecuritySystemBusinessLogic.HelperModels;
 using SecuritySystemBusinessLogic.ViewModels;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
+using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,11 +40,11 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             }
             return reports;
         }
-
         // Получение списка заказов за определенный период
-        public List<IGrouping<string, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
-            return orderLogic.Read(new OrderBindingModel
+            var list = orderLogic
+            .Read(new OrderBindingModel
             {
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
@@ -57,11 +58,12 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 Sum = x.Sum,
                 Status = x.Status
             })
-           .GroupBy(x => x.DateCreate.ToShortDateString())
+            .GroupBy(x => x.DateCreate.Date)
            .ToList();
+        
+            return list;
         }
-
-        // Сохранение компонент в файл-Word
+      
         public void SaveEquipmentsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
@@ -79,6 +81,8 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             {
                 FileName = model.FileName,
                 Title = "Заказы",
+                DateTo = model.DateTo,
+                DateFrom = model.DateFrom,
                 Orders = GetOrders(model)
             });
         }
