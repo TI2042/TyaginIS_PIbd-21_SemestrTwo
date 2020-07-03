@@ -59,7 +59,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             })
             .GroupBy(x => x.DateCreate.Date)
            .ToList();
-        }
+        
             return list;
         }
 
