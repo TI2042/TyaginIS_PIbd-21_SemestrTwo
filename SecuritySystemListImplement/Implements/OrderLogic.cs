@@ -128,8 +128,6 @@ namespace SecuritySystemListImplement.Implements
                 EquipmentId = order.EquipmentId,
                 Status = order.Status,
                 Sum = order.Sum,
-                ClientId = order.ClientId,
-                ClientFIO = order.ClientFIO
             };
         }
     }
