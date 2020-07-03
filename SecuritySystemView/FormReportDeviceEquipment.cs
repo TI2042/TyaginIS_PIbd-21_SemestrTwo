@@ -66,10 +66,5 @@ namespace SecuritySystemView
         {
             this.reportViewer1.RefreshReport();
         }
-
-        private void FormReportDeviceEquipment_Load_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

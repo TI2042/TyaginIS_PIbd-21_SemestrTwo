@@ -3,6 +3,7 @@ using SecuritySystemBusinessLogic.HelperModels;
 using SecuritySystemBusinessLogic.ViewModels;
 using SecuritySystemsBusinessLogic.BindingModels;
 using SecuritySystemsBusinessLogic.Interfaces;
+using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,6 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             this.orderLogic = orderLLogic;
         }
 
-
         public List<ReportEquipmentDeviceViewModel> GetEquipmentDevices()
         {
             List<ReportEquipmentDeviceViewModel> reports = new List<ReportEquipmentDeviceViewModel>();
@@ -40,11 +40,11 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             }
             return reports;
         }
-
         // Получение списка заказов за определенный период
         public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
-            return orderLogic.Read(new OrderBindingModel
+            var list = orderLogic
+            .Read(new OrderBindingModel
             {
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
@@ -60,23 +60,9 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             .GroupBy(x => x.DateCreate.Date)
            .ToList();
         }
-
-        //скорее всего надо будет переработать
-        public List<ReportOrdersViewModel> GetOrders()
-        {
-            return orderLogic.Read(null)
-            .Select(x => new ReportOrdersViewModel
-            {
-                DateCreate = x.DateCreate,
-                EquipmentName = x.EquipmentName,
-                Count = x.Count,
-                Sum = x.Sum,
-                Status = x.Status
-            })
-           .ToList();
+            return list;
         }
 
-        // Сохранение компонент в файл-Word
         public void SaveEquipmentsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
@@ -87,14 +73,15 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             });
         }
 
-        // Сохранение компонент с указаеним продуктов в файл-Excel
         public void SaveProductComponentToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Заказы",
-                Orders = GetOrders()
+                DateTo = model.DateTo,
+                DateFrom = model.DateFrom,
+                Orders = GetOrders(model)
             });
         }
 
