@@ -104,7 +104,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                     });
                     rowIndex++;
                     decimal total = 0;
-                    foreach (var bouquet in order)
+                    foreach (var equipment in order)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -112,7 +112,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = bouquet.EquipmentName,
+                            Text = equipment.EquipmentName,
                             StyleIndex = 0U
                         });
                         InsertCellInWorksheet(new ExcelCellParameters
@@ -121,10 +121,10 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = bouquet.Sum.ToString(),
+                            Text = equipment.Sum.ToString(),
                             StyleIndex = 0U
                         });
-                        total += bouquet.Sum;
+                        total += equipment.Sum;
                         rowIndex++;
                     }
                     InsertCellInWorksheet(new ExcelCellParameters
