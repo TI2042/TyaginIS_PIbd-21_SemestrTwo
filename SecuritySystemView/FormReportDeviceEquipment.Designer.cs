@@ -79,7 +79,7 @@
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormReportDeviceEquipment";
             this.Text = "Отчет PDF";
-            this.Load += new System.EventHandler(this.FormReportDeviceEquipment_Load_1);
+            this.Load += new System.EventHandler(this.FormReportDeviceEquipment_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportDeviceEquipmentViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -88,8 +88,8 @@
         #endregion
 
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-        private System.Windows.Forms.Button buttonForm;
         private System.Windows.Forms.Button buttonPDF;
+        private System.Windows.Forms.Button buttonForm;
         private System.Windows.Forms.BindingSource ReportDeviceEquipmentViewModelBindingSource;
     }
 }
