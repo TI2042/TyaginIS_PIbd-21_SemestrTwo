@@ -30,10 +30,9 @@ namespace SecuritySystemFileImplement.Implements
             else
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
-                order = new Order { Id = maxId + 1 };             
+                order = new Order { Id = maxId + 1 };
                 source.Orders.Add(order);
-            } 
-
+            }
             order.EquipmentId = model.EquipmentId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
