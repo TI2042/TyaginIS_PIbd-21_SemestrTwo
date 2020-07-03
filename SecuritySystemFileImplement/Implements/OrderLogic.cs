@@ -25,7 +25,7 @@ namespace SecuritySystemFileImplement.Implements
             {
                 order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Заказ не найден");
             }
             else
             {
@@ -54,7 +54,7 @@ namespace SecuritySystemFileImplement.Implements
             }
             else
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("Заказ не найден");
             }
         }
 
@@ -79,8 +79,6 @@ namespace SecuritySystemFileImplement.Implements
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
                 Status = rec.Status,
-                ClientFIO = rec.ClientFIO,
-                ClientId = rec.ClientId,
                 Sum = rec.Sum
             }).ToList();
         }

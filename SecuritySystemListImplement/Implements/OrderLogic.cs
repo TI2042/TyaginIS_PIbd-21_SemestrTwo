@@ -69,7 +69,9 @@ namespace SecuritySystemListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (model != null)
+                if (model != null && order.Id == model.Id
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo && order.ClientId == model.ClientId
+                )
                 {
                     if (model != null)
                     {
