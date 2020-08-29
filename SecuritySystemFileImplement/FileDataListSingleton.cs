@@ -16,12 +16,13 @@ namespace SecuritySystemFileImplement
         private readonly string EquipmentFileName = "Equipment.xml";
         private readonly string EquipmentDeviceFileName = "EquipmentDevice.xml";
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
         public List<Device> Devices { get; set; }
         public List<Order> Orders { get; set; }
         public List<Equipment> Equipments { get; set; }
         public List<EquipmentDevice> EquipmentDevices { get; set; }
         public List<Client> Clients { set; get; }
-
+        public List<Implementer> Implementers { set; get; }
         private FileDataListSingleton()
         {
             Devices = LoadDevices();
@@ -47,7 +48,9 @@ namespace SecuritySystemFileImplement
             SaveProducts();
             SaveProductComponents();
             SaveClients();
+            SaveImplementers();
         }
+
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
@@ -69,6 +72,24 @@ namespace SecuritySystemFileImplement
             return list;
         }
 
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                XDocument xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementor").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerFIO = elem.Element("ImplementerFIO").Value
+                    });
+                }
+            }
+            return list;
+        }
         private List<Device> LoadDevices()
         {
             var list = new List<Device>();
@@ -171,6 +192,40 @@ namespace SecuritySystemFileImplement
                 xDocument.Save(DeviceFileName);
             }
         }
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                    new XAttribute("Id", implementer.Id),
+                    new XElement("ImplementerFIO", implementer.ImplementerFIO)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(DeviceFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("ClientFIO", client.ClientFIO),
+                    new XElement("Login", client.Login),
+                    new XElement("Password", client.Password)
+                    ));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
+        }
 
         private void SaveOrders()
         {
@@ -225,24 +280,6 @@ namespace SecuritySystemFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(EquipmentDeviceFileName);
-            }
-        }
-        private void SaveClients()
-        {
-            if (Clients != null)
-            {
-                var xElement = new XElement("Clients");
-                foreach (var client in Clients)
-                {
-                    xElement.Add(new XElement("Client",
-                    new XAttribute("Id", client.Id),
-                    new XElement("ClientFIO", client.ClientFIO),
-                    new XElement("Login", client.Login),
-                    new XElement("Password", client.Password)
-                    ));
-                }
-                XDocument xDocument = new XDocument(xElement);
-                xDocument.Save(ClientFileName);
             }
         }
     }

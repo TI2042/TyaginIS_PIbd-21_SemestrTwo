@@ -4,7 +4,6 @@ using SecuritySystemsBusinessLogic.Interfaces;
 using SecuritySystemsBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SecuritySystemListImplement.Implements
 {
@@ -20,7 +19,7 @@ namespace SecuritySystemListImplement.Implements
         public void CreateOrUpdate(EquipmentBindingModel model)
         {
             Equipment tempProduct = model.Id.HasValue ? null : new Equipment { Id = 1 };
-            foreach (var product in source.Products)
+            foreach (var product in source.Equipments)
             {
                 if (product.EquipmentName == model.EquipmentName && product.Id != model.Id)
                 {
@@ -45,25 +44,25 @@ namespace SecuritySystemListImplement.Implements
             }
             else
             {
-                source.Products.Add(CreateModel(model, tempProduct));
+                source.Equipments.Add(CreateModel(model, tempProduct));
             }
         }
 
         public void Delete(EquipmentBindingModel model)
         {
             // удаляем записи по компонентам при удалении изделия
-            for (int i = 0; i < source.ProductComponents.Count; ++i)
+            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
             {
-                if (source.ProductComponents[i].EquipmentId == model.Id)
+                if (source.EquipmentDevices[i].EquipmentId == model.Id)
                 {
-                    source.ProductComponents.RemoveAt(i--);
+                    source.EquipmentDevices.RemoveAt(i--);
                 }
             }
-            for (int i = 0; i < source.Products.Count; ++i)
+            for (int i = 0; i < source.Equipments.Count; ++i)
             {
-                if (source.Products[i].Id == model.Id)
+                if (source.Equipments[i].Id == model.Id)
                 {
-                    source.Products.RemoveAt(i);
+                    source.Equipments.RemoveAt(i);
                     return;
                 }
             }
@@ -76,39 +75,39 @@ namespace SecuritySystemListImplement.Implements
             product.Price = model.Price;
             //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxPCId = 0;
-            for (int i = 0; i < source.ProductComponents.Count; ++i)
+            for (int i = 0; i < source.EquipmentDevices.Count; ++i)
             {
-                if (source.ProductComponents[i].Id > maxPCId)
+                if (source.EquipmentDevices[i].Id > maxPCId)
                 {
-                    maxPCId = source.ProductComponents[i].Id;
+                    maxPCId = source.EquipmentDevices[i].Id;
                 }
-                if (source.ProductComponents[i].EquipmentId == product.Id)
+                if (source.EquipmentDevices[i].EquipmentId == product.Id)
                 {
                     // если в модели пришла запись компонента с таким id
                     if
-                    (model.EquipmentDevices.ContainsKey(source.ProductComponents[i].DeviceId))
+                    (model.EquipmentDevices.ContainsKey(source.EquipmentDevices[i].DeviceId))
                     {
                         // обновляем количество
-                        source.ProductComponents[i].Count =
-                        model.EquipmentDevices[source.ProductComponents[i].DeviceId].Item2;
+                        source.EquipmentDevices[i].Count =
+                        model.EquipmentDevices[source.EquipmentDevices[i].DeviceId].Item2;
                         // из модели убираем эту запись, чтобы остались только не
                         //просмотренные
-                        model.EquipmentDevices.Remove(source.ProductComponents[i].DeviceId);
+                        model.EquipmentDevices.Remove(source.EquipmentDevices[i].DeviceId);
                     }
                     else
                     {
-                        source.ProductComponents.RemoveAt(i--);
+                        source.EquipmentDevices.RemoveAt(i--);
                     }
                 }
             }
             // новые записи
             foreach (var pc in model.EquipmentDevices)
             {
-                source.ProductComponents.Add(new EquipmentDevice
+                source.EquipmentDevices.Add(new EquipmentDevice
                 {
                     Id = ++maxPCId,
-                    EquipmentId = product.Id,
-                    DeviceId = pc.Key,
+                    DeviceId = product.Id,
+                    EquipmentId = pc.Key,
                     Count = pc.Value.Item2
                 });
             }
@@ -118,7 +117,7 @@ namespace SecuritySystemListImplement.Implements
         public List<EquipmentViewModel> Read(EquipmentBindingModel model)
         {
             List<EquipmentViewModel> result = new List<EquipmentViewModel>();
-            foreach (var component in source.Products)
+            foreach (var component in source.Equipments)
             {
                 if (model != null)
                 {
@@ -139,12 +138,12 @@ namespace SecuritySystemListImplement.Implements
             // требуется дополнительно получить список компонентов для изделия с
             // названиями и их количество
             Dictionary<int, (string, int)> equipmentDevices = new Dictionary<int, (string, int)>();
-            foreach (var dm in source.ProductComponents)
+            foreach (var dm in source.EquipmentDevices)
             {
                 if (dm.EquipmentId == product.Id)
                 {
                     string componentName = string.Empty;
-                    foreach (var component in source.Components)
+                    foreach (var component in source.Devices)
                     {
                         if (dm.DeviceId == component.Id)
                         {

@@ -6,6 +6,7 @@ using Unity;
 using Unity.Lifetime;
 using SecuritySystemDataBaseImplement.Implements;
 using SecuritySystemBusinessLogic.BusinessLogic;
+using SecuritySystemBusinessLogic.Interfaces;
 
 namespace SecuritySystemView
 {
@@ -30,7 +31,9 @@ namespace SecuritySystemView
             currentContainer.RegisterType<IEquipmentLogic, EquipmentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
-
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<WorkModeling>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
