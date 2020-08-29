@@ -34,25 +34,32 @@ namespace SecuritySystemView
             }
             using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dateTimePickerFrom.Value <= dateTimePickerTo.Value)
                 {
-                    try
+                    var orders = logic.GetOrders(new ReportBindingModel()
                     {
-                        logic.SaveProductComponentToExcelFile(new ReportBindingModel
+                        DateFrom = dateTimePickerFrom.Value,
+                        DateTo = dateTimePickerTo.Value
+                    });
+
+                    foreach (var orderGroup in orders)
+                    {
+                        dataGridView.Rows.Add(orderGroup.Key, "", "");
+                        decimal sum = 0;
+                        foreach (var order in orderGroup)
                         {
-                            DateFrom = dateTimePickerFrom.Value.Date,
-                            DateTo = dateTimePickerTo.Value.Date,
-                            FileName = dialog.FileName
-                        });
-                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
+                            dataGridView.Rows.Add("", order.EquipmentName, order.Sum);
+                            sum += order.Sum;
+                        }
+                        dataGridView.Rows.Add("Всего:", "", sum);
                     }
                 }
+                else
+                    MessageBox.Show("Начало периода не должно превышать его конец", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

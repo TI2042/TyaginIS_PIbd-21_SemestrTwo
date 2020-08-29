@@ -35,6 +35,7 @@ namespace SecuritySystemView
             dataGridView.Columns[0].Visible = false;
             dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
+            LoadData();
         }
 
         private void FormProduct_Load(object sender, EventArgs e)
@@ -80,7 +81,6 @@ namespace SecuritySystemView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -170,9 +170,11 @@ namespace SecuritySystemView
                 DialogResult = DialogResult.OK;
                 Close();
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.InnerException.Message);
             }
         }
 

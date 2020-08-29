@@ -49,6 +49,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
+            .ToList()
             .Select(x => new ReportOrdersViewModel
             {
                 DateCreate = x.DateCreate,
@@ -62,18 +63,19 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
         
             return list;
         }
-
+      
         public void SaveEquipmentsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Комплектации",
+                Title = "Комплектация",
                 Equipments = equipmentLogic.Read(null)
             });
         }
 
-        public void SaveProductComponentToExcelFile(ReportBindingModel model)
+        // Сохранение компонент с указаеним продуктов в файл-Excel
+        public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
@@ -91,7 +93,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Комплектации",
+                Title = "Комплектация",
                 Equipments = GetEquipmentDevices()
             });
         }

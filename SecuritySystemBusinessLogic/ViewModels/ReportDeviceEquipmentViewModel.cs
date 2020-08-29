@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SecuritySystemBusinessLogic.ViewModels
+namespace SecuritySystemsBusinessLogic.ViewModels
 {
     public class ReportDeviceEquipmentViewModel
     {

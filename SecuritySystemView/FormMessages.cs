@@ -35,18 +35,12 @@ namespace SecuritySystemView
         {
             try
             {
-                var list = logic.Read(null);
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка получения спаска сообщений", "Ошибка",
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

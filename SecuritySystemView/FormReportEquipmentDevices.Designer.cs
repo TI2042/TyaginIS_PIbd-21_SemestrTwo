@@ -39,7 +39,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView
+            // dataGridViewMaterialToDress
             // 
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

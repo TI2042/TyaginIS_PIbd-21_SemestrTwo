@@ -36,11 +36,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.ReportDeviceEquipmentViewModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // ReportDeviceEquipmentViewModelBindingSource
+            // 
+            this.ReportDeviceEquipmentViewModelBindingSource.DataSource = typeof(SecuritySystemsBusinessLogic.ViewModels.ReportDeviceEquipmentViewModel);
+            // 
             // reportViewer1
             // 
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SecuritySystemView.ReportOrder.rdlc";
-            this.reportViewer1.Location = new System.Drawing.Point(2, 52);
-            this.reportViewer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SecuritySystemsView.Report.rdlc";
+            this.reportViewer1.Location = new System.Drawing.Point(2, 64);
             this.reportViewer1.Name = "reportViewer1";
             this.reportViewer1.ServerReport.BearerToken = null;
             this.reportViewer1.Size = new System.Drawing.Size(594, 304);

@@ -9,6 +9,10 @@ namespace SecuritySystemDataBaseImplement.Models
     public class Order
     {
         public int Id { get; set; }
+        [Required]
+        public int? ClientId { set; get; }
+        [Required]
+        public string ClientFIO { set; get; }
         public int EquipmentId { get; set; }
         [Required]
         public int ClientId { set; get; }
@@ -19,13 +23,11 @@ namespace SecuritySystemDataBaseImplement.Models
         [Required]
         public decimal Sum { get; set; }
         public OrderStatus Status { get; set; }
+        public int? ImplementerId { set; get; }
+        public string ImplementerFIO { set; get; }
         [Required]
         public DateTime DateCreate { get; set; }
         [Required]
-        public int? ClientId { set; get; }
-        [Required]
-        public string ClientFIO { set; get; }
-        public int? ImplementerId { set; get; }
         public DateTime? DateImplement { get; set; }
         public virtual Client Client { set; get; }
         public virtual Equipment Equipment { get; set; }

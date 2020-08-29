@@ -12,7 +12,7 @@ using System.Text;
 
 namespace SecuritySystemBusinessLogic.BusinessLogic
 {
-    static class SaveToExcel
+    public class SaveToExcel
     {
         public static void CreateDoc(ExcelInfo info)
         {
@@ -112,7 +112,7 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = equipment.EquipmentName,
+                            Text = order.EquipmentName,
                             StyleIndex = 0U
                         });
                         InsertCellInWorksheet(new ExcelCellParameters
@@ -121,19 +121,29 @@ namespace SecuritySystemBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = equipment.Sum.ToString(),
+                            Text = order.Sum.ToString(),
                             StyleIndex = 0U
                         });
                         total += equipment.Sum;
                         rowIndex++;
+                        sum += order.Sum;
                     }
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "A",
+                        RowIndex = rowIndex,
+                        Text = "Всего:",
+                        StyleIndex = 0U
+                    });
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
                         ColumnName = "C",
                         RowIndex = rowIndex,
-                        Text = total.ToString(),
+                        Text = sum.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;

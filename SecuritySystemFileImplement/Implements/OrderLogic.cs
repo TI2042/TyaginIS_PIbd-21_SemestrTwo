@@ -35,7 +35,7 @@ namespace SecuritySystemFileImplement.Implements
             }
             order.EquipmentId = model.EquipmentId;
             order.ClientFIO = model.ClientFIO;
-            order.ClientId = model.ClientId.Value;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.ImplementerFIO = model.ImplementerFIO;

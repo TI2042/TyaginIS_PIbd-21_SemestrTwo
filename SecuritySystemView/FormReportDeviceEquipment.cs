@@ -1,5 +1,6 @@
 ﻿using SecuritySystemBusinessLogic.BindingModels;
 using SecuritySystemBusinessLogic.BusinessLogic;
+using SecuritySystemBusinessLogic.ViewModels;
 using System;
 using Microsoft.Reporting.WinForms;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace SecuritySystemView
             try
             {
                 var dataSource = logic.GetEquipmentDevices();
-                ReportDataSource source = new ReportDataSource("DataSet1", dataSource);
+                ReportDataSource source = new ReportDataSource("DataSetEquipment", dataSource);
                 reportViewer1.LocalReport.DataSources.Add(source);
                 reportViewer1.RefreshReport();
             }
