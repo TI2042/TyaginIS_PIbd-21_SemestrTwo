@@ -26,7 +26,9 @@ namespace SecuritySystemClietView
                 dataGridViewClientOrders.Columns[1].Visible = false;
                 dataGridViewClientOrders.Columns[2].Visible = false;
                 dataGridViewClientOrders.Columns[3].Visible = false;
-                dataGridViewClientOrders.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewClientOrders.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridViewClientOrders.Columns[7].Visible = false;
+                dataGridViewClientOrders.Columns[11].Visible = false;
             }
             catch (Exception ex)
             {
@@ -48,6 +50,12 @@ namespace SecuritySystemClietView
             {
                 LoadList();
             }
+        }
+
+        private void ShowMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMessages();
+            form.ShowDialog();
         }
 
         private void RefreshOrderListToolStripMenuItem_Click(object sender, EventArgs e)

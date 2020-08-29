@@ -8,7 +8,7 @@ namespace SecuritySystemListImplement.Models
     public class Order
     {
         public int Id { get; set; }
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
         public string ClientFIO { set; get; }
 
         public int EquipmentId { get; set; }

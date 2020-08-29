@@ -17,6 +17,8 @@ namespace SecuritySystemListImplement
 
         public List<Client> Clients { set; get; }
         public List<Implementer> Implementers { set; get; }
+        public List<MessageInfo> MessageInfoes { get; set; }
+
         private DataListSingleton()
         {
             Devices = new List<Device>();
@@ -25,6 +27,7 @@ namespace SecuritySystemListImplement
             EquipmentDevices = new List<EquipmentDevice>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            MessageInfoes = new List<MessageInfo>();
         }
 
 

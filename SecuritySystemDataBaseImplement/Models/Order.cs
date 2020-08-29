@@ -19,7 +19,6 @@ namespace SecuritySystemDataBaseImplement.Models
         [Required]
         public decimal Sum { get; set; }
         public OrderStatus Status { get; set; }
-
         [Required]
         public DateTime DateCreate { get; set; }
         [Required]

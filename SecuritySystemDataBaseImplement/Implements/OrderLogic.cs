@@ -25,22 +25,23 @@ namespace SecuritySystemDataBaseImplement.Implements
                         if (model.Id.HasValue)
                         {
                             if (order == null)
-                                throw new Exception("Элемент не найден");                        
+                                throw new Exception("Элемент не найден");                           
                         }
                         else
                         {
-                            order = new Order();
+                            order = new Order();                          
                             context.Orders.Add(order);
                         }
-                        order.ClientFIO = model.ClientFIO;
-                        order.ClientId = model.ClientId;
                         order.EquipmentId = model.EquipmentId;
                         order.Count = model.Count;
+                        order.ClientFIO = model.ClientFIO;
+                        order.ClientId = model.ClientId;
                         order.DateCreate = model.DateCreate;
                         order.DateImplement = model.DateImplement;
+                        order.ImplementerFIO = model.ImplementerFIO;
+                        order.ImplementerId = model.ImplementerId;
                         order.Status = model.Status;
                         order.Sum = model.Sum;
-                        order.ImplementerId = model.ImplementerId;
                         context.SaveChanges();
                         transaction.Commit();
                     }
@@ -88,18 +89,21 @@ namespace SecuritySystemDataBaseImplement.Implements
             {
                 return context.Orders.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
                 && (rec.DateCreate <= model.DateTo) || (model.ClientId == rec.ClientId) ||
-                (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue) ||
+                (model.FreeOrder.HasValue && model.FreeOrder.Value && !(rec.ImplementerFIO != null)) ||
                 (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId.Value && rec.Status == OrderStatus.Выполняется))
                 .Include(ord => ord.Equipment)
-                .Include(ord => ord.Implementer)
                 .Select(rec => new OrderViewModel()
                 {
                     Id = rec.Id,
                     EquipmentId = rec.EquipmentId,
+                    ClientFIO = rec.ClientFIO,
+                    ClientId = rec.ClientId,
                     EquipmentName = context.Equipments.FirstOrDefault((r) => r.Id == rec.EquipmentId).EquipmentName,
                     ClientFIO = rec.ClientFIO,
                     ClientId = rec.ClientId,
                     Count = rec.Count,
+                    ImplementorId = rec.ImplementerId,
+                    ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
                     ImplementorId = rec.ImplementerId,
